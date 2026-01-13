@@ -26,6 +26,12 @@ public class MagicCircle : MonoBehaviour
         SR.sprite = images[MagicLevel];
     }
 
+    private void OnEnable()
+    {
+        MagicLevel = 0;
+        SR.sprite = images[MagicLevel];
+        SameTarget = null;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -62,9 +68,16 @@ public class MagicCircle : MonoBehaviour
     {
         if (SameTarget != null)
         {
-            Destroy(SameTarget);
-            MagicLevel++;
-            SR.sprite = images[MagicLevel];
+            if (SameTarget.activeSelf)
+            {
+                if (SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
+                {
+                    SameTarget.SetActive(false);
+                    MagicLevel++;
+                    SR.sprite = images[MagicLevel];
+                }
+            }
+            SameTarget = null;
         }
 
         if(WallOut)
@@ -87,7 +100,16 @@ public class MagicCircle : MonoBehaviour
         {
             if(collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
             {
-
+                SameTarget = collision.gameObject;
+            }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("MagicCircle"))
+        {
+            if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
+            {
                 SameTarget = collision.gameObject;
             }
         }
