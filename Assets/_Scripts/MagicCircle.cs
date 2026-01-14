@@ -10,12 +10,11 @@ public class MagicCircle : MonoBehaviour
     
     public bool OnSameLevel=false;
     public GameObject SameTarget;
-
     public int MagicLevel = 0;
-
-    private Vector3 offset;
     public Vector3 ClickPoint;
     public bool WallOut = false;
+
+    private Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,16 +50,18 @@ public class MagicCircle : MonoBehaviour
     private void OnMouseDown()
     {
         gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-        
-
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
+        Debug.Log("마법진드래그");
     }
 
     private void OnMouseDrag()
     {
+        
         ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ClickPoint.z = 0;
         gameObject.transform.position = ClickPoint;
-
+        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        
     }
 
 
@@ -80,17 +81,20 @@ public class MagicCircle : MonoBehaviour
             SameTarget = null;
         }
 
-        if(WallOut)
-        {
-            gameObject.transform.position = new Vector2(0, -1);
-            WallOut = false;
-        }
-
         
+
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
 
     }
     private void OnMouseUp()
     {
+        if (WallOut)
+        {
+            transform.position = new Vector2(0, -1);
+            WallOut = false;
+        }
+        SameTarget = null;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
         gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
     }
 

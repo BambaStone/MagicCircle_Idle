@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragObject2D : MonoBehaviour
+public class SpeelFireDrag : MonoBehaviour
 {
     private Vector3 offset;
 
@@ -19,6 +19,14 @@ public class DragObject2D : MonoBehaviour
         // 마우스 위치를 월드 좌표로 변환하고 offset을 더하여 오브젝트 이동
         Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane);
         Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
-        transform.position = cursorPosition ;
+        if(0<cursorPosition.x)
+        {
+            cursorPosition.x = 0;
+        }
+        if(cursorPosition.x<-25)
+        {
+            cursorPosition.x = -25;
+        }
+        transform.position = new Vector3(cursorPosition.x, transform.position.y, transform.position.z);
     }
 }
