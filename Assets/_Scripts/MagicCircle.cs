@@ -13,6 +13,12 @@ public class MagicCircle : MonoBehaviour
     public int MagicLevel = 0;
     public Vector3 ClickPoint;
     public bool WallOut = false;
+    public bool OnFire = false;
+    public SpellFire SpellFires;
+    public ParticleSystem Effect;
+
+    private int _colorSequence = 0;
+    private Color _colorChange = new Color(1,0,1);
 
     private Vector3 offset;
     // Start is called before the first frame update
@@ -30,26 +36,67 @@ public class MagicCircle : MonoBehaviour
         MagicLevel = 0;
         SR.sprite = images[MagicLevel];
         SameTarget = null;
+        SR.color = Color.white;
     }
-    // Update is called once per frame
-    void Update()
+
+    private void FixedUpdate()
     {
         /*
-        if(Input.GetMouseButtonDown(0))
+        if(7<=MagicLevel)
         {
-            nowMagic++;
-            if(images.Count<=nowMagic)
+            switch(_colorSequence)
             {
-                nowMagic = 0;
+                case 0:
+                    _colorChange.r= _colorChange.r-Time.deltaTime*5;
+                    if(_colorChange.r<=0)
+                    {
+                        _colorSequence++;
+                    }
+                    break;
+                case 1:
+                    _colorChange.g = _colorChange.g + Time.deltaTime * 5;
+                    if (1<=_colorChange.g)
+                    {
+                        _colorSequence++;
+                    }
+                    break;
+                case 2:
+                    _colorChange.b = _colorChange.b - Time.deltaTime * 5;
+                    if (_colorChange.b<=0)
+                    {
+                        _colorSequence++;
+                    }
+                    break;
+                case 3:
+                    _colorChange.r = _colorChange.r + Time.deltaTime * 5;
+                    if (1 <= _colorChange.r)
+                    {
+                        _colorSequence++;
+                    }
+                    break;
+                case 4:
+                    _colorChange.g = _colorChange.g - Time.deltaTime * 5;
+                    if (_colorChange.g <= 0)
+                    {
+                        _colorSequence++;
+                    }
+                    break;
+                case 5:
+                    _colorChange.b = _colorChange.b + Time.deltaTime * 5;
+                    if (1 <= _colorChange.b)
+                    {
+                        _colorSequence=0;
+                    }
+                    break;
             }
-            SR.sprite = images[nowMagic];
-            
+            SR.color = _colorChange;
         }
         */
     }
     private void OnMouseDown()
     {
         gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+        Effect.GetComponent<Renderer>().sortingOrder = 11;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
         Debug.Log("마법진드래그");
     }
@@ -67,7 +114,11 @@ public class MagicCircle : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (SameTarget != null)
+        if(OnFire)
+        {
+            SpellFires.OnSpell(gameObject);
+        }
+        if (SameTarget != null && !OnFire)
         {
             if (SameTarget.activeSelf)
             {
@@ -76,10 +127,16 @@ public class MagicCircle : MonoBehaviour
                     SameTarget.SetActive(false);
                     MagicLevel++;
                     SR.sprite = images[MagicLevel];
+                    if(7==MagicLevel)
+                    {
+                        SR.color = _colorChange;
+                    }
                 }
             }
             SameTarget = null;
         }
+
+
 
         
 
@@ -88,14 +145,29 @@ public class MagicCircle : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (WallOut)
+        if (!OnFire)
         {
-            transform.position = new Vector2(0, -1);
-            WallOut = false;
+            if(SpellFires!=null)
+            {
+                SpellFires.OffSpell(gameObject);
+            }
+            if (WallOut)
+            {
+                transform.position = new Vector2(0, -1);
+                WallOut = false;
+            }
+            SameTarget = null;
+            Effect.GetComponent<Renderer>().sortingOrder = 9;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
+            gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
         }
-        SameTarget = null;
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
-        gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+        if(OnFire)
+        {
+            Effect.GetComponent<Renderer>().sortingOrder = 11;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
+            gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -106,6 +178,11 @@ public class MagicCircle : MonoBehaviour
             {
                 SameTarget = collision.gameObject;
             }
+        }
+        if(collision.CompareTag("SpellFire"))
+        {
+            OnFire = true;
+            SpellFires = collision.gameObject.GetComponent<SpellFire>();
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -131,6 +208,10 @@ public class MagicCircle : MonoBehaviour
         if(collision.CompareTag("Wall"))
         {
             WallOut = true;
+        }
+        if(collision.CompareTag("SpellFire"))
+        {
+            OnFire = false;
         }
     }
 }

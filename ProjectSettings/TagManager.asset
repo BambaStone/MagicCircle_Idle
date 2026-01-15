@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MagicCircle
   - Wall
+  - SpellFire
   layers:
   - Default
   - TransparentFX

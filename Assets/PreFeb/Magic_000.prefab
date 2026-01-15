@@ -30,12 +30,12 @@ Transform:
   m_GameObject: {fileID: 1696526135946417645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 0.2}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4751725214486437937}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5044626980541210590
 SpriteRenderer:
@@ -120,6 +120,9 @@ MonoBehaviour:
   MagicLevel: 0
   ClickPoint: {x: 0, y: 0, z: 0}
   WallOut: 0
+  OnFire: 0
+  SpellFires: {fileID: 0}
+  Effect: {fileID: 6056530402385303188}
 --- !u!58 &217529743120744922
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -217,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 7797506588890233561}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7240595855252227863}
@@ -4987,7 +4990,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

@@ -510,71 +510,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &128674526
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2138230975}
-    m_Modifications:
-    - target: {fileID: 1696526135946417645, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_Name
-      value: Magic_000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044626980541210590, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_SortingOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.14311147
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.1688948
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f40434dde7d8d98469453757e712e120, type: 3}
 --- !u!1 &141751011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,10 +1407,10 @@ GameObject:
   - component: {fileID: 389515326}
   - component: {fileID: 389515330}
   - component: {fileID: 389515329}
-  - component: {fileID: 389515328}
+  - component: {fileID: 389515331}
   m_Layer: 0
   m_Name: SpellFire
-  m_TagString: Untagged
+  m_TagString: SpellFire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1505,21 +1440,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1657560907}
+  - {fileID: 1836032699}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &389515328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389515325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d2fd3836492f7d44bf486018b85c33f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &389515329
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1573,7 +1497,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389515325}
-  m_BodyType: 1
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1592,6 +1516,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &389515331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389515325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a8ec0a2cb03dc64b9ccb7fb51c9a148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FireSpellParent: {fileID: 1836032698}
+  SpellTankParent: {fileID: 2138230974}
+  FireSpellList: []
 --- !u!1 &450860340
 GameObject:
   m_ObjectHideFlags: 0
@@ -4162,6 +4101,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4735152111736646149}
   - {fileID: 185644517}
   - {fileID: 1807025058}
   - {fileID: 1594462224}
@@ -4169,7 +4109,6 @@ RectTransform:
   - {fileID: 696482329}
   - {fileID: 166895719}
   - {fileID: 1596292270}
-  - {fileID: 4735152111736646149}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4620,7 +4559,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 0800cc9d4da0323489f4d25c65194aa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5189,6 +5128,37 @@ Transform:
   m_Father: {fileID: 545218567}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1836032698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836032699}
+  m_Layer: 0
+  m_Name: SpellFireMagicCircles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836032699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836032698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.98, y: -3.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 389515327}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1902853086
 GameObject:
   m_ObjectHideFlags: 0
@@ -5535,7 +5505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2138230975}
   m_Layer: 0
-  m_Name: MagicCircles
+  m_Name: SpellTankMagicCircles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5552,16 +5522,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2138466040}
+  m_Children: []
   m_Father: {fileID: 545218567}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &2138466040 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7240595855252227863, guid: f40434dde7d8d98469453757e712e120, type: 3}
-  m_PrefabInstance: {fileID: 128674526}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2140928572
 GameObject:
   m_ObjectHideFlags: 0
