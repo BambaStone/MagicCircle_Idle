@@ -36,7 +36,7 @@ public class MagicCircle : MonoBehaviour
         MagicLevel = 0;
         SR.sprite = images[MagicLevel];
         SameTarget = null;
-        SR.color = Color.white;
+        //SR.color = Color.white;
     }
 
     private void FixedUpdate()
@@ -127,10 +127,12 @@ public class MagicCircle : MonoBehaviour
                     SameTarget.SetActive(false);
                     MagicLevel++;
                     SR.sprite = images[MagicLevel];
+                    /*
                     if(7==MagicLevel)
                     {
                         SR.color = _colorChange;
                     }
+                    */
                 }
             }
             SameTarget = null;
@@ -192,6 +194,13 @@ public class MagicCircle : MonoBehaviour
             if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
             {
                 SameTarget = collision.gameObject;
+            }
+        }
+        if(collision.CompareTag("Wall"))
+        {
+            if(WallOut)
+            {
+                WallOut = false;
             }
         }
     }
