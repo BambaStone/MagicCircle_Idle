@@ -29,6 +29,7 @@ public class SaveDataManager : MonoBehaviour
     }
     #endregion
     
+
     public List<bool> SpellFireOn;
     public List<int> SpellLevel;
     public int SpellsCount;
@@ -36,7 +37,12 @@ public class SaveDataManager : MonoBehaviour
     public int StageClear;
     public int BossClear;
     public int SpellOpen;
-    
+
+    public int MagicForce;
+    public int MagicGem;
+
+    public int TotalPower;
+
     public int Power;
     public int Speed;
     public int MaxSpellFiresCount;
@@ -45,6 +51,7 @@ public class SaveDataManager : MonoBehaviour
     public int MakeSpellLevel;
     public int MaxHaveSpell;
     public DateTime LastPlayTime;
+    public DateTime NowLoginTime;
     
 
     // Start is called before the first frame update
@@ -62,28 +69,48 @@ public class SaveDataManager : MonoBehaviour
         Power = PlayerPrefs.GetInt("Power", 0);
         Speed = PlayerPrefs.GetInt("Speed", 0);
         MaxSpellFiresCount = PlayerPrefs.GetInt("MaxSpellFiresCount", 1);
-        MaxMakeSpell = PlayerPrefs.GetInt("MaxMakeSpell", 1);
-        NowMakeSpell = PlayerPrefs.GetInt("NowMakeSpell", 1);
+        MaxMakeSpell = PlayerPrefs.GetInt("MaxMakeSpell", 5);
+        NowMakeSpell = PlayerPrefs.GetInt("NowMakeSpell", MaxMakeSpell);
         MaxHaveSpell = PlayerPrefs.GetInt("MaxHaveSpell", 50);
         MakeSpellLevel = PlayerPrefs.GetInt("MakeSpellLevel", 1);
-        LastPlayTime.AddYears(PlayerPrefs.GetInt("LastYear", DateTime.Now.Year));
-        LastPlayTime.AddMonths(PlayerPrefs.GetInt("LastMonths", DateTime.Now.Month));
-        LastPlayTime.AddDays(PlayerPrefs.GetInt("Lastday", DateTime.Now.Day));
-        LastPlayTime.AddHours(PlayerPrefs.GetInt("LastHour", DateTime.Now.Hour));
-        LastPlayTime.AddMinutes(PlayerPrefs.GetInt("LastMinute", DateTime.Now.Minute));
-        LastPlayTime.AddSeconds(PlayerPrefs.GetInt("LastSecond", DateTime.Now.Second));
+
+        MagicForce= PlayerPrefs.GetInt("MagicForce", 0);
+        MagicGem = PlayerPrefs.GetInt("MagicGem", 0);
+
+        string tempTimeStr = PlayerPrefs.GetString("LastPlayTime", "");
+
+        if(string.IsNullOrEmpty(tempTimeStr))
+        {
+            Debug.Log("First Play");
+            LastPlayTime = DateTime.Now;
+        }
+        else
+        {
+            LastPlayTime = DateTime.Parse(tempTimeStr);
+        }
+        NowLoginTime = DateTime.Now;
+
+        TimeSpan timeDif = NowLoginTime - LastPlayTime;
+        if(0<timeDif.TotalMinutes)
+        {
+            NowMakeSpell = NowMakeSpell + (int)timeDif.TotalMinutes;
+            if(MaxMakeSpell<NowMakeSpell)
+            {
+                NowMakeSpell = MaxMakeSpell;
+            }
+        }
 
         SpellsCount = PlayerPrefs.GetInt("SpellsCount", 0);
         for (int i = 0; i < SpellsCount; i++)
         {
-            SpellLevel[i] = PlayerPrefs.GetInt("SpellLevel_" + i, 0);
+            SpellLevel.Add( PlayerPrefs.GetInt("SpellLevel_" + i, 0));
             if (PlayerPrefs.GetInt("SpellFireOn_" + i, 0) == 1)
             {
-                SpellFireOn[i] = true;
+                SpellFireOn.Add(true);
             }
             else
             {
-                SpellFireOn[i] = false;
+                SpellFireOn.Add( false);
             }
         }
     }
@@ -100,12 +127,10 @@ public class SaveDataManager : MonoBehaviour
         PlayerPrefs.SetInt("NowMakeSpell", NowMakeSpell);
         PlayerPrefs.SetInt("MaxHaveSpell", MaxHaveSpell);
         PlayerPrefs.SetInt("MakeSpellLevel", MakeSpellLevel);
-        PlayerPrefs.SetInt("LastYear", DateTime.Now.Year);
-        PlayerPrefs.SetInt("LastMonth", DateTime.Now.Month);
-        PlayerPrefs.SetInt("LastDay", DateTime.Now.Day);
-        PlayerPrefs.SetInt("LastHour", DateTime.Now.Hour);
-        PlayerPrefs.SetInt("LastMinute", DateTime.Now.Minute);
-        PlayerPrefs.SetInt("LastSecond", DateTime.Now.Second);
+        PlayerPrefs.SetString("LastPlayTime", DateTime.Now.ToString());
+
+        PlayerPrefs.SetInt("MagicForce", MagicForce);
+        PlayerPrefs.SetInt("MagicGem", MagicGem);
 
         PlayerPrefs.SetInt("SpellsCount", SpellsCount);
         for (int i = 0; i < SpellsCount; i++)
@@ -122,14 +147,17 @@ public class SaveDataManager : MonoBehaviour
         }
 
     }
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
     IEnumerator SaveTimer()
     {
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(60f);
+
+        MagicForce= MagicForce+10;
+        MagicGem = MagicGem + 1;
+        if (NowMakeSpell<MaxMakeSpell)
+        {
+            NowMakeSpell = NowMakeSpell + 1;
+        }
         Save();
         StartCoroutine(SaveTimer());
     }
