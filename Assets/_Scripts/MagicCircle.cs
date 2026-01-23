@@ -41,7 +41,7 @@ public class MagicCircle : MonoBehaviour
         MagicLevel = 0;
         SR.sprite = images[MagicLevel];
         SameTarget = null;
-        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(Random.Range(-1,1), Random.Range(-1, 1)));
+        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1,1), Random.Range(-1, 1)));
         //SR.color = Color.white;
     }
 
@@ -178,7 +178,7 @@ public class MagicCircle : MonoBehaviour
             if (WallOut)
             {
                 transform.position = new Vector2(0, -1);
-                gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(Random.Range(-1, 1), Random.Range(-1, 1)));
+                gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
                 WallOut = false;
             }
             SameTarget = null;

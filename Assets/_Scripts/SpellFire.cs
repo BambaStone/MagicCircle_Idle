@@ -36,7 +36,7 @@ public class SpellFire : MonoBehaviour
         }
         for (int i = 0; i < FireSpellList.Count; i++)
         {
-            FireSpellList[i].transform.localPosition = new Vector2(i * 0.55f + 0.1f, 0);
+            FireSpellList[i].transform.localPosition = new Vector3(i * 0.55f + 0.1f, 0,-1);
             FireSpellList[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
 
@@ -57,7 +57,7 @@ public class SpellFire : MonoBehaviour
 
         for (int i = 0; i < FireSpellList.Count; i++)
         {
-            FireSpellList[i].transform.localPosition = new Vector2(i * 0.55f + 0.1f, 0);
+            FireSpellList[i].transform.localPosition = new Vector3(i * 0.55f + 0.1f, 0,-1);
         }
 
     }

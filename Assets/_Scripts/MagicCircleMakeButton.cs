@@ -55,7 +55,7 @@ public class MagicCircleMakeButton : MonoBehaviour
         {
             if (!(Recycling[i].gameObject.activeSelf))
             {
-                Recycling[i].transform.position = new Vector3(0, -1, 0);
+                Recycling[i].transform.position = new Vector3(0, -1, -1);
                 Recycling[i].SetActive(true);
                 OnMagicCircle.Add(Recycling[i]);
                 Recycling[i].GetComponent<MagicCircle>().SpellNum = SaveDataManager.Instance.SpellsCount;
@@ -68,7 +68,7 @@ public class MagicCircleMakeButton : MonoBehaviour
         }
         if (!succes && Recycling.Count < _maxHaveSpell)
         {
-            Recycling.Add(Instantiate(MagicCirclePrefab, new Vector3(0,-1,0), transform.rotation));
+            Recycling.Add(Instantiate(MagicCirclePrefab, new Vector3(0,-1,-1), transform.rotation));
             Recycling[Recycling.Count - 1].transform.parent = CirCles.transform;
             OnMagicCircle.Add(Recycling[Recycling.Count - 1]);
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellNum = SaveDataManager.Instance.SpellsCount;
@@ -101,7 +101,7 @@ public class MagicCircleMakeButton : MonoBehaviour
     {
         for (int i = 0; i < SaveDataManager.Instance.SpellsCount; i++)
         {
-            Recycling.Add(Instantiate(MagicCirclePrefab, new Vector3(0, -1, 0), transform.rotation));
+            Recycling.Add(Instantiate(MagicCirclePrefab, new Vector3(0, -1, -1), transform.rotation));
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().Spawner = gameObject.GetComponent<MagicCircleMakeButton>();
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellFires = SpellFireObj;
             Recycling[Recycling.Count - 1].transform.parent = CirCles.transform;

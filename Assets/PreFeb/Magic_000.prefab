@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696526135946417645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: -1}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -115,6 +115,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e12f2e3a4f9de024aabb5c0794a00bc7, type: 3}
   - {fileID: 21300000, guid: 1557ac89c29141f43b413c1779b14877, type: 3}
   - {fileID: 21300000, guid: 9795422dd3f745c43ba3bfb2f0f52acd, type: 3}
+  SpellNum: 0
+  Spawner: {fileID: 0}
   OnSameLevel: 0
   SameTarget: {fileID: 0}
   MagicLevel: 0
