@@ -152,15 +152,18 @@ public class SaveDataManager : MonoBehaviour
     {
         yield return new WaitForSeconds(60f);
 
-        MagicForce= MagicForce+10;
-        MagicGem = MagicGem + 1;
-        if (NowMakeSpell<MaxMakeSpell)
-        {
-            NowMakeSpell = NowMakeSpell + 1;
-        }
+        SaveTime();
         Save();
         StartCoroutine(SaveTimer());
     }
 
-
+    public void SaveTime()
+    {
+        MagicForce = MagicForce + 10;
+        MagicGem = MagicGem + 1;
+        if (NowMakeSpell < MaxMakeSpell)
+        {
+            NowMakeSpell = NowMakeSpell + 1;
+        }
+    }
 }

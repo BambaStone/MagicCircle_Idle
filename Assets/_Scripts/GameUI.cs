@@ -22,6 +22,15 @@ public class GameUI : MonoBehaviour
         MagicGemText.text = _gem + "";
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            SaveDataManager.Instance.SaveTime();
+            SaveDataManager.Instance.Save();
+        }
+    }
+
     private void FixedUpdate()
     {
         if(_force != SaveDataManager.Instance.MagicForce)
