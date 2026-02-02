@@ -7,6 +7,7 @@ TagManager:
   - MagicCircle
   - Wall
   - SpellFire
+  - Enemy
   layers:
   - Default
   - TransparentFX

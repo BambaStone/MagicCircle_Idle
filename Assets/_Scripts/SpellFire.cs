@@ -7,10 +7,15 @@ public class SpellFire : MonoBehaviour
     public GameObject FireSpellParent;
     public GameObject SpellTankParent;
     public List<GameObject> FireSpellList;
+    public List<GameObject> NowSpellLine;
+
+    public float SpellTimer=0f;
+    public int NowSpellNum = -1;
+    public bool Fire=false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(FireTimer());
     }
 
     // Update is called once per frame
@@ -62,8 +67,45 @@ public class SpellFire : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if(Fire)
+        {
+            FireSpell();
+        }
+    }
+
     public void FireSpell()
     {
+        int SpellTimerInt = (int)SpellTimer/1;
 
+        if(SpellTimerInt != NowSpellNum && SpellTimerInt < 8)
+        {
+            NowSpellNum = SpellTimerInt;
+
+            if(1<=NowSpellNum)
+            {
+                NowSpellLine[NowSpellNum - 1].SetActive(false);
+            }
+            NowSpellLine[NowSpellNum].SetActive(true);
+        }
+
+        
+        if (8<=SpellTimer)
+        {
+            NowSpellLine[7].SetActive(false);
+            SpellTimer = 0;
+            NowSpellNum = -1;
+            Fire = false;
+            StartCoroutine(FireTimer());
+        }
+        SpellTimer = SpellTimer + (SaveDataManager.Instance.Speed + 1) * Time.deltaTime;
+    }
+
+
+    IEnumerator FireTimer()
+    {
+        yield return new WaitForSeconds(1f);
+        Fire = true;
     }
 }
