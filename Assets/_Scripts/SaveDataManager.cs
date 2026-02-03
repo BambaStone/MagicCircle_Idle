@@ -28,8 +28,8 @@ public class SaveDataManager : MonoBehaviour
         }
     }
     #endregion
-    
 
+    
     public List<bool> SpellFireOn;
     public List<int> SpellLevel;
     public int SpellsCount;
@@ -42,6 +42,9 @@ public class SaveDataManager : MonoBehaviour
     public int MagicGem;
 
     public int TotalPower;
+    public int TotalSpeed;
+
+    public List<int> SpellPower;
 
     public int Power;
     public int Speed;
@@ -113,6 +116,11 @@ public class SaveDataManager : MonoBehaviour
                 SpellFireOn.Add( false);
             }
         }
+
+        for(int i=0;i<12;i++)
+        {
+            SpellPower.Add(PlayerPrefs.GetInt("SpellPower"+i, 0));
+        }
     }
     public void Save()
     {
@@ -145,7 +153,10 @@ public class SaveDataManager : MonoBehaviour
                 PlayerPrefs.SetInt("SpellFireOn_" + i, 0);
             }
         }
-
+        for (int i = 0; i < 12; i++)
+        {
+            PlayerPrefs.GetInt("SpellPower" + i, SpellPower[i]);
+        }
     }
 
     IEnumerator SaveTimer()

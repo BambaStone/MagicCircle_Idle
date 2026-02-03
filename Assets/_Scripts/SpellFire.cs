@@ -8,6 +8,8 @@ public class SpellFire : MonoBehaviour
     public GameObject SpellTankParent;
     public List<GameObject> FireSpellList;
     public List<GameObject> NowSpellLine;
+    public List<GameObject> SpellEffects;
+    public GameObject target;
 
     public float SpellTimer=0f;
     public int NowSpellNum = -1;
@@ -81,8 +83,13 @@ public class SpellFire : MonoBehaviour
 
         if(SpellTimerInt != NowSpellNum && SpellTimerInt < 8)
         {
+            
             NowSpellNum = SpellTimerInt;
-
+            if(NowSpellNum<FireSpellList.Count)
+            {
+                GameObject fireSpell=Instantiate(SpellEffects[FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
+                fireSpell.GetComponent<SpellData>().SetData(target,SaveDataManager.Instance.TotalPower,0, FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel);
+            }
             if(1<=NowSpellNum)
             {
                 NowSpellLine[NowSpellNum - 1].SetActive(false);
@@ -99,7 +106,7 @@ public class SpellFire : MonoBehaviour
             Fire = false;
             StartCoroutine(FireTimer());
         }
-        SpellTimer = SpellTimer + (SaveDataManager.Instance.Speed + 1) * Time.deltaTime;
+        SpellTimer = SpellTimer + ((SaveDataManager.Instance.Speed *0.1f)+1) * Time.deltaTime;
     }
 
 

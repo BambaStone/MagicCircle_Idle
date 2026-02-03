@@ -114,8 +114,10 @@ public class MagicCircle : MonoBehaviour
         ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ClickPoint.z = 0;
         gameObject.transform.position = ClickPoint;
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        
+        if (!(gameObject.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static))
+        {
+            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
     }
 
 

@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Spell_1 : MonoBehaviour
 {
-    public GameObject Target;
     public GameObject TriggerEffect;
+
+    public Animator ani;
 
     public float Speed = 1f;
     public float rotationSpeed = 0.1f; // 회전 속도 조절 변수
 
     private Rigidbody2D _rigidbody2D;
+    private GameObject _target;
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    public void SetTarget(GameObject target)
+    public void SetTarget()
     {
-        Target = target;
+        _target = GetComponent<SpellData>().Target;
     }
 
     // Update is called once per frame
@@ -27,10 +29,14 @@ public class Spell_1 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Target != null)
+        if (_target == null)
+        {
+            SetTarget();
+        }
+        if (_target != null && ani.gameObject.activeSelf)
         {
             rotationSpeed = rotationSpeed + Time.deltaTime * 5;
-            Vector2 targetPosition = Target.transform.position;
+            Vector2 targetPosition = _target.transform.position;
             // 현재 오브젝트의 위치를 가져오기
             Vector2 currentPosition = transform.position;
             // 두 지점 사이의 벡터를 계산
@@ -50,10 +56,14 @@ public class Spell_1 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
+        if (ani.gameObject.activeSelf)
         {
-            Instantiate(TriggerEffect, transform.position,Quaternion.identity);
-            Destroy(gameObject);
+            if (collision.CompareTag("Enemy"))
+            {
+                Instantiate(TriggerEffect, transform.position, Quaternion.identity);
+                ani.gameObject.SetActive(false);
+                Destroy(gameObject, 1f);
+            }
         }
     }
 
