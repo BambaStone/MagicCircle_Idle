@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spell_11 : MonoBehaviour
+public class Spell_Laser : MonoBehaviour
 {
     public GameObject TriggerEffect;
 

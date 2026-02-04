@@ -8,11 +8,15 @@ public class GameUI : MonoBehaviour
     public TMP_Text MagicGemText;
     public GameObject UpgradeUI;
     public GameObject QuestUI;
+    public TMP_Text SpellHaveText;
 
     private int _uiNow = 0;
 
     private int _force;
     private int _gem;
+
+    private int _nowHaveSpell;
+    private int _maxHaveSpell;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +24,17 @@ public class GameUI : MonoBehaviour
         MagicForceText.text = _force+"";
         _gem = SaveDataManager.Instance.MagicGem;
         MagicGemText.text = _gem + "";
+        _nowHaveSpell = SaveDataManager.Instance.SpellsCount;
+        _maxHaveSpell = SaveDataManager.Instance.MaxHaveSpell;
+        SpellHaveText.text = _nowHaveSpell + " / " + _maxHaveSpell;
     }
+
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
+            Debug.Log("A´©¸§");
             SaveDataManager.Instance.SaveTime();
             SaveDataManager.Instance.Save();
         }
@@ -43,6 +52,17 @@ public class GameUI : MonoBehaviour
         {
             _gem = SaveDataManager.Instance.MagicGem;
             MagicGemText.text = _gem + "";
+        }
+
+        if(_nowHaveSpell !=SaveDataManager.Instance.SpellsCount)
+        {
+            _nowHaveSpell = SaveDataManager.Instance.SpellsCount;
+            SpellHaveText.text = _nowHaveSpell + " / " + _maxHaveSpell;
+        }
+        if(_maxHaveSpell != SaveDataManager.Instance.MaxHaveSpell)
+        {
+            _maxHaveSpell = SaveDataManager.Instance.MaxHaveSpell;
+            SpellHaveText.text = _nowHaveSpell + " / " + _maxHaveSpell;
         }
     }
 

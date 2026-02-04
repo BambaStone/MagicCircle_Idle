@@ -36,16 +36,16 @@ public class SaveDataManager : MonoBehaviour
 
     public int StageClear;
     public int BossClear;
-    public int SpellOpen;
 
     public int MagicForce;
     public int MagicGem;
 
-    public int TotalPower;
-    public int TotalSpeed;
+    public float TotalPower;
+    public float TotalSpeed;
 
     public List<int> SpellPower;
 
+    public int UnlockSpell;
     public int Power;
     public int Speed;
     public int MaxSpellFiresCount;
@@ -55,29 +55,64 @@ public class SaveDataManager : MonoBehaviour
     public int MaxHaveSpell;
     public DateTime LastPlayTime;
     public DateTime NowLoginTime;
+
+    public int AFKIncome;
+
+    public List<int> BaseDamage;
+    public void TotalSpeedCal()
+    {
+        TotalSpeed = (Speed * 0.1f) + 1;
+        for (int i = 0; i <= UnlockSpell; i++)
+        {
+            if (i % 2 == 1)
+            {
+                TotalSpeed = TotalSpeed + (SpellPower[i] * 0.01f*(i+1));
+            }
+        }
+    }
+
+    public void TotalPowerCal()
+    {
+        TotalPower = (Power*0.1f)+1;
+        for (int i = 0; i <= UnlockSpell; i++)
+        {
+            if (i == 0 || i % 2 == 0)
+            {
+                TotalPower = TotalPower + (SpellPower[i] * 0.01f*(i+1));
+            }
+        }
+    }
+
     
+
 
     // Start is called before the first frame update
     void Start()
     {
         Load();
         StartCoroutine(SaveTimer());
+        BaseDamage.Add(1);
+        for(int i=1;i<12;i++)
+        {
+            BaseDamage.Add(BaseDamage[i-1] * 2);
+        }
     }
 
     public void Load()
     {
         StageClear = PlayerPrefs.GetInt("StageClear", 0);
         BossClear = PlayerPrefs.GetInt("BossClear", 0);
-        SpellOpen = PlayerPrefs.GetInt("SpellOpen", 0);
         Power = PlayerPrefs.GetInt("Power", 0);
         Speed = PlayerPrefs.GetInt("Speed", 0);
         MaxSpellFiresCount = PlayerPrefs.GetInt("MaxSpellFiresCount", 1);
-        MaxMakeSpell = PlayerPrefs.GetInt("MaxMakeSpell", 5);
+        MaxMakeSpell = PlayerPrefs.GetInt("MaxMakeSpell", 1);
         NowMakeSpell = PlayerPrefs.GetInt("NowMakeSpell", MaxMakeSpell);
-        MaxHaveSpell = PlayerPrefs.GetInt("MaxHaveSpell", 50);
-        MakeSpellLevel = PlayerPrefs.GetInt("MakeSpellLevel", 1);
+        MaxHaveSpell = PlayerPrefs.GetInt("MaxHaveSpell", 10);
+        MakeSpellLevel = PlayerPrefs.GetInt("MakeSpellLevel", 0);
 
-        MagicForce= PlayerPrefs.GetInt("MagicForce", 0);
+        UnlockSpell = PlayerPrefs.GetInt("UnlockSpell", 0);
+
+        MagicForce = PlayerPrefs.GetInt("MagicForce", 0);
         MagicGem = PlayerPrefs.GetInt("MagicGem", 0);
 
         string tempTimeStr = PlayerPrefs.GetString("LastPlayTime", "");
@@ -121,13 +156,15 @@ public class SaveDataManager : MonoBehaviour
         {
             SpellPower.Add(PlayerPrefs.GetInt("SpellPower"+i, 0));
         }
+
+        TotalSpeedCal();
+        TotalPowerCal();
     }
     public void Save()
     {
 
         PlayerPrefs.SetInt("StageClear", StageClear);
         PlayerPrefs.SetInt("BossClear", BossClear);
-        PlayerPrefs.SetInt("SpellOpen", SpellOpen);
         PlayerPrefs.SetInt("Power", Power);
         PlayerPrefs.SetInt("Speed", Speed);
         PlayerPrefs.SetInt("MaxSpellFiresCount", MaxSpellFiresCount);
@@ -136,6 +173,9 @@ public class SaveDataManager : MonoBehaviour
         PlayerPrefs.SetInt("MaxHaveSpell", MaxHaveSpell);
         PlayerPrefs.SetInt("MakeSpellLevel", MakeSpellLevel);
         PlayerPrefs.SetString("LastPlayTime", DateTime.Now.ToString());
+
+
+        PlayerPrefs.SetInt("UnlockSpell", UnlockSpell);
 
         PlayerPrefs.SetInt("MagicForce", MagicForce);
         PlayerPrefs.SetInt("MagicGem", MagicGem);
@@ -177,4 +217,18 @@ public class SaveDataManager : MonoBehaviour
             NowMakeSpell = NowMakeSpell + 1;
         }
     }
+
+
+    public void PowerUp()
+    {
+        Power++;
+        TotalPowerCal();
+    }
+
+    public void SpeedUp()
+    {
+        Speed++;
+        TotalSpeedCal();
+    }
+
 }

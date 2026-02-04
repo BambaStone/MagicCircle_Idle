@@ -87,8 +87,11 @@ public class SpellFire : MonoBehaviour
             NowSpellNum = SpellTimerInt;
             if(NowSpellNum<FireSpellList.Count)
             {
-                GameObject fireSpell=Instantiate(SpellEffects[FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
-                fireSpell.GetComponent<SpellData>().SetData(target,SaveDataManager.Instance.TotalPower,0, FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel);
+                int magicLevel = FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel;
+                GameObject fireSpell=Instantiate(SpellEffects[magicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
+
+                float damage = SaveDataManager.Instance.BaseDamage[magicLevel] * SaveDataManager.Instance.TotalPower*(1+SaveDataManager.Instance.SpellPower[magicLevel]*0.1f);
+                fireSpell.GetComponent<SpellData>().SetData(target,damage);
             }
             if(1<=NowSpellNum)
             {
@@ -106,7 +109,7 @@ public class SpellFire : MonoBehaviour
             Fire = false;
             StartCoroutine(FireTimer());
         }
-        SpellTimer = SpellTimer + ((SaveDataManager.Instance.Speed *0.1f)+1) * Time.deltaTime;
+        SpellTimer = SpellTimer + SaveDataManager.Instance.TotalSpeed * Time.deltaTime;
     }
 
 

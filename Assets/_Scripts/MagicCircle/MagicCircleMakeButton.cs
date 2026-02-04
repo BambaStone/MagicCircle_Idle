@@ -24,10 +24,13 @@ public class MagicCircleMakeButton : MonoBehaviour
     {
         if (0 < SaveDataManager.Instance.NowMakeSpell)
         {
-            MagicCircleSpawn();
-            SaveDataManager.Instance.NowMakeSpell--;
-            _nowMakeSpell--;
-            MakeSpellUI.text = _nowMakeSpell + " / " + _maxMakeSpell;
+            if (OnMagicCircle.Count < SaveDataManager.Instance.MaxHaveSpell)
+            {
+                MagicCircleSpawn();
+                SaveDataManager.Instance.NowMakeSpell--;
+                _nowMakeSpell--;
+                MakeSpellUI.text = _nowMakeSpell + " / " + _maxMakeSpell;
+            }
         }
     }
 
@@ -109,7 +112,6 @@ public class MagicCircleMakeButton : MonoBehaviour
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellNum=i;
             OnMagicCircle.Add(Recycling[Recycling.Count - 1]);
             Recycling[Recycling.Count - 1].SetActive(true);
-            
         }
     }
 

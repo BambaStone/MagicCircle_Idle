@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spell_2 : MonoBehaviour
+public class Spell_Summon : MonoBehaviour
 {
-    public SpellData Spell_1_1;
-    public SpellData Spell_1_2;
+    public SpellData Spell_1;
     SpellData _spellData;
 
     private void Start()
     {
+        transform.position = Vector2.zero;
         _spellData = GetComponent<SpellData>();
     }
     void Update()
     {
-        if(_spellData.Target != null)
+        if (_spellData.Target != null)
         {
-            Spell_1_1.SetData(_spellData);
-            Spell_1_2.SetData(_spellData);
+            Spell_1.SetData(_spellData);
         }
-        if(Spell_1_1 ==null && Spell_1_2==null)
+        if (Spell_1 == null)
         {
             Destroy(gameObject);
         }
     }
-
 }
