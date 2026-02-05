@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spell_Bolt : MonoBehaviour
+public class Spell_Pulse : MonoBehaviour
 {
     public GameObject TriggerEffect;
 
     public Animator ani;
 
     public float Speed = 1f;
-    public float rotationSpeed = 0.1f; // 회전 속도 조절 변수
 
     private Rigidbody2D _rigidbody2D;
     private GameObject _target;
-
+    private bool _hitOn = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,9 +33,8 @@ public class Spell_Bolt : MonoBehaviour
         {
             SetTarget();
         }
-        if (_target != null && ani.gameObject.activeSelf)
+        if (_target != null && !_hitOn)
         {
-            rotationSpeed = rotationSpeed + Time.deltaTime * 5;
             Vector2 targetPosition = _target.transform.position;
             // 현재 오브젝트의 위치를 가져오기
             Vector2 currentPosition = transform.position;
@@ -47,10 +45,13 @@ public class Spell_Bolt : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             // 각도를 Quaternion.Euler로 변환
             // 2D이므로 Z축을 기준으로 회전
-            Quaternion rotation = Quaternion.Euler(0f, 0f, angle - 90f);
             // 오브젝트의 회전값을 설정
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
             //방향대로 이동
+            transform.Translate(Vector3.up * Speed * Time.deltaTime);
+        }
+        if(_hitOn)
+        {
             transform.Translate(Vector3.up * Speed * Time.deltaTime);
         }
     }
@@ -62,11 +63,9 @@ public class Spell_Bolt : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 Instantiate(TriggerEffect, transform.position, Quaternion.identity);
-                ani.gameObject.SetActive(false);
+                _hitOn = true;
                 Destroy(gameObject, 1f);
             }
         }
     }
-
-
 }

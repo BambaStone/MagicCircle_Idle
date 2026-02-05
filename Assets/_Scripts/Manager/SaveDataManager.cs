@@ -66,7 +66,7 @@ public class SaveDataManager : MonoBehaviour
         {
             if (i % 2 == 1)
             {
-                TotalSpeed = TotalSpeed + (SpellPower[i] * 0.01f*(i+1));
+                TotalSpeed = TotalSpeed + (SpellPower[i] * 0.01f);
             }
         }
     }
@@ -78,7 +78,7 @@ public class SaveDataManager : MonoBehaviour
         {
             if (i == 0 || i % 2 == 0)
             {
-                TotalPower = TotalPower + (SpellPower[i] * 0.01f*(i+1));
+                TotalPower = TotalPower + (SpellPower[i] * 0.01f);
             }
         }
     }
@@ -208,6 +208,10 @@ public class SaveDataManager : MonoBehaviour
         StartCoroutine(SaveTimer());
     }
 
+    public void Cheat()
+    {
+        NowMakeSpell = MaxMakeSpell;
+    }
     public void SaveTime()
     {
         MagicForce = MagicForce + 10;
@@ -219,16 +223,5 @@ public class SaveDataManager : MonoBehaviour
     }
 
 
-    public void PowerUp()
-    {
-        Power++;
-        TotalPowerCal();
-    }
-
-    public void SpeedUp()
-    {
-        Speed++;
-        TotalSpeedCal();
-    }
 
 }

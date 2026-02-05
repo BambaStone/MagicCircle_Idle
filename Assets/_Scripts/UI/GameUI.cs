@@ -35,7 +35,7 @@ public class GameUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("A´©¸§");
-            SaveDataManager.Instance.SaveTime();
+            SaveDataManager.Instance.Cheat();
             SaveDataManager.Instance.Save();
         }
     }

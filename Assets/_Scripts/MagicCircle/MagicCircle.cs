@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MagicCircle : MonoBehaviour
 {
-
     public SpriteRenderer SR;
     public List<Sprite> images;
 
@@ -12,7 +11,7 @@ public class MagicCircle : MonoBehaviour
 
     public MagicCircleMakeButton Spawner;
 
-    public bool OnSameLevel=false;
+    public bool OnSameLevel = false;
     public GameObject SameTarget;
     public int MagicLevel = 0;
     public Vector3 ClickPoint;
@@ -40,7 +39,7 @@ public class MagicCircle : MonoBehaviour
         MagicLevel = 0;
         SR.sprite = images[MagicLevel];
         SameTarget = null;
-        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1,1), Random.Range(-1, 1)));
+        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
         //SR.color = Color.white;
     }
 
@@ -54,12 +53,9 @@ public class MagicCircle : MonoBehaviour
                 SameTarget = null;
             }
         }
-        
-
     }
     private void OnMouseDown()
     {
-        
         gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
         Effect.GetComponent<Renderer>().sortingOrder = 11;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
@@ -68,7 +64,7 @@ public class MagicCircle : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        
+
         ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ClickPoint.z = 0;
         gameObject.transform.position = ClickPoint;
@@ -79,7 +75,7 @@ public class MagicCircle : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (OnFire)
+        if (OnFire && SpellFires.FireSpellList.Count < SaveDataManager.Instance.MaxSpellFiresCount)
         {
             SameTarget = null;
             SpellFires.OnSpell(gameObject);
@@ -88,18 +84,16 @@ public class MagicCircle : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
             gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
         }
-        if (!OnFire)
+        else
         {
-            if(SameTarget != null)
+            if (SameTarget != null)
             {
-                if (SameTarget.activeSelf)
+                if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
                 {
-                    if (SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
-                    {
-                        SameTarget.SetActive(false);
-                        LevelChange(MagicLevel+1);
-                        SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
-                    }
+                    SameTarget.SetActive(false);
+                    LevelChange(MagicLevel + 1);
+                    SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
+
                 }
                 SameTarget = null;
             }
@@ -127,9 +121,9 @@ public class MagicCircle : MonoBehaviour
 
     private void OnDisable()
     {
-        if (SpellNum != Spawner.OnMagicCircle.Count-1)
+        if (SpellNum != Spawner.OnMagicCircle.Count - 1)
         {
-            for (int i = SpellNum; i < Spawner.OnMagicCircle.Count-1; i++)
+            for (int i = SpellNum; i < Spawner.OnMagicCircle.Count - 1; i++)
             {
                 Spawner.OnMagicCircle[i + 1].GetComponent<MagicCircle>().SpellNum = i;
             }
@@ -140,11 +134,11 @@ public class MagicCircle : MonoBehaviour
         SaveDataManager.Instance.SpellsCount--;
         SpellNum = -1;
     }
-   
+
 
     public void StartOnFireSpell()
     {
-        if(SaveDataManager.Instance.SpellFireOn[SpellNum])
+        if (SaveDataManager.Instance.SpellFireOn[SpellNum])
         {
             SpellFires.OnSpell(gameObject);
             Effect.GetComponent<Renderer>().sortingOrder = 11;
@@ -154,14 +148,14 @@ public class MagicCircle : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("MagicCircle"))
+        if (collision.CompareTag("MagicCircle"))
         {
-            if(collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
+            if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
             {
                 SameTarget = collision.gameObject;
             }
         }
-        if(collision.CompareTag("SpellFire"))
+        if (collision.CompareTag("SpellFire"))
         {
             OnFire = true;
             SpellFires = collision.gameObject.GetComponent<SpellFire>();
@@ -176,9 +170,9 @@ public class MagicCircle : MonoBehaviour
                 SameTarget = collision.gameObject;
             }
         }
-        if(collision.CompareTag("Wall"))
+        if (collision.CompareTag("Wall"))
         {
-            if(WallOut)
+            if (WallOut)
             {
                 WallOut = false;
             }
@@ -194,11 +188,11 @@ public class MagicCircle : MonoBehaviour
                 SameTarget = null;
             }
         }
-        if(collision.CompareTag("Wall"))
+        if (collision.CompareTag("Wall"))
         {
             WallOut = true;
         }
-        if(collision.CompareTag("SpellFire"))
+        if (collision.CompareTag("SpellFire"))
         {
             OnFire = false;
         }
@@ -208,7 +202,7 @@ public class MagicCircle : MonoBehaviour
     {
         MagicLevel = level;
         SR.sprite = images[MagicLevel];
-        if(SaveDataManager.Instance.UnlockSpell<MagicLevel)
+        if (SaveDataManager.Instance.UnlockSpell < MagicLevel)
         {
             SaveDataManager.Instance.UnlockSpell = MagicLevel;
         }

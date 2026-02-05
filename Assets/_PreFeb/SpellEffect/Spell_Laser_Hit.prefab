@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2323509931744403428}
   - component: {fileID: 6755006183411778161}
   m_Layer: 0
-  m_Name: Spell_11_Hit
+  m_Name: Spell_Laser_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

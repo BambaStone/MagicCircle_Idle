@@ -8,24 +8,31 @@ public class SpellFire : MonoBehaviour
     public GameObject SpellTankParent;
     public List<GameObject> FireSpellList;
     public List<GameObject> NowSpellLine;
+    public List<GameObject> SpellLineLocks;
     public List<GameObject> SpellEffects;
     public GameObject target;
 
     public float SpellTimer=0f;
     public int NowSpellNum = -1;
     public bool Fire=false;
+    public int SpellFireLine=1;
+
+    static int MaxSpellFireLine=8;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(FireTimer());
     }
 
-    // Update is called once per frame
-    void Update()
+    void SpellReposition()
     {
-        
+        for (int i = 0; i < FireSpellList.Count; i++)
+        {
+            FireSpellList[i].transform.localPosition = new Vector3(i * 0.55f + 0.1f, 0, -1);
+            if (FireSpellList[i].GetComponent<Rigidbody2D>().bodyType != RigidbodyType2D.Static)
+                FireSpellList[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
     }
-
     public void OnSpell(GameObject spell)
     {
         bool same = false;
@@ -41,14 +48,10 @@ public class SpellFire : MonoBehaviour
             FireSpellList.Add(spell);
             spell.transform.parent = FireSpellParent.transform;
         }
-        for (int i = 0; i < FireSpellList.Count; i++)
-        {
-            FireSpellList[i].transform.localPosition = new Vector3(i * 0.55f + 0.1f, 0,-1);
-            FireSpellList[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        }
+        SpellReposition();
 
     }
-
+   
     public void OffSpell(GameObject spell)
     {
         
@@ -62,15 +65,21 @@ public class SpellFire : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < FireSpellList.Count; i++)
-        {
-            FireSpellList[i].transform.localPosition = new Vector3(i * 0.55f + 0.1f, 0,-1);
-        }
+        SpellReposition();
 
     }
 
     private void FixedUpdate()
     {
+        if(SaveDataManager.Instance.MaxSpellFiresCount != SpellFireLine)
+        {
+            SpellFireLine = SaveDataManager.Instance.MaxSpellFiresCount;
+            for(int i=0;i<SpellFireLine-1;i++)
+            {
+                if (SpellLineLocks[i].activeSelf)
+                    SpellLineLocks[i].SetActive(false);
+            }
+        }
         if(Fire)
         {
             FireSpell();
@@ -101,7 +110,7 @@ public class SpellFire : MonoBehaviour
         }
 
         
-        if (8<=SpellTimer)
+        if (MaxSpellFireLine <= SpellTimer)
         {
             NowSpellLine[7].SetActive(false);
             SpellTimer = 0;

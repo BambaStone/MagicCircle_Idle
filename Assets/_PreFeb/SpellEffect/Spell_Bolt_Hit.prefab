@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3965224512707450418}
   - component: {fileID: 674023125669942430}
   m_Layer: 0
-  m_Name: Spell_1_Hit
+  m_Name: Spell_Bolt_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

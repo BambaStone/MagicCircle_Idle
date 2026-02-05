@@ -16,8 +16,8 @@ public class Spell_Double : MonoBehaviour
     {
         if(_spellData.Target != null)
         {
-            Spell_1_1.SetData(_spellData);
-            Spell_1_2.SetData(_spellData);
+            Spell_1_1.SetData(_spellData.Target, _spellData.Damage / 2f);
+            Spell_1_2.SetData(_spellData.Target, _spellData.Damage / 2f);
         }
         if(Spell_1_1 ==null && Spell_1_2==null)
         {
