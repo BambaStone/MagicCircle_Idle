@@ -63,6 +63,7 @@ public class Spell_Pulse : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 Instantiate(TriggerEffect, transform.position, Quaternion.identity);
+                _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);
                 _hitOn = true;
                 Destroy(gameObject, 1f);
             }

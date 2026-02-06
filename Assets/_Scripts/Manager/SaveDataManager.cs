@@ -56,6 +56,29 @@ public class SaveDataManager : MonoBehaviour
     public DateTime LastPlayTime;
     public DateTime NowLoginTime;
 
+
+    /*
+    퀘스트 목록
+    0 : 몬스터킬 N회
+    1 : 보스킬 N회
+    2 : 총 포스 N개 획득
+    3 : 총 보석 N개 획득
+    4 : 파워 N레벨 달성
+    5 : 스피드 N레벨 달성
+    6 : 포스 N개 사용
+    7 : 보석 N개 사용
+    8 : 스테이지 N 클리어
+    9 : 보스 N 클리어
+    10 : 스펠 제작 N 회
+    QuestValue는 수행횟수
+    QuestClear는 퀘스트 클리어 단계 : 이 단계를 통해 수행횟수의 목표를 지정
+    예시 : 0번 퀘스트를 100킬 단위로 하면
+    몬스터킬을 하면 QuestValue[0]을 +1
+    QuestValue[0]의 값이 (QuestClear[0]+1)*100을 달성할때마다 보상을 주고 QuestClear[0]을 +1
+    */
+    public List<int> QuestValue;
+    public List<int> QuestClear;
+
     public int AFKIncome;
 
     public List<int> BaseDamage;
@@ -157,6 +180,12 @@ public class SaveDataManager : MonoBehaviour
             SpellPower.Add(PlayerPrefs.GetInt("SpellPower"+i, 0));
         }
 
+        for(int i=0;i<21;i++)
+        {
+            QuestValue.Add(PlayerPrefs.GetInt("QuestValue"+i,0));
+            QuestClear.Add(PlayerPrefs.GetInt("QuestClear" + i, 0));
+        }
+
         TotalSpeedCal();
         TotalPowerCal();
     }
@@ -197,6 +226,12 @@ public class SaveDataManager : MonoBehaviour
         {
             PlayerPrefs.GetInt("SpellPower" + i, SpellPower[i]);
         }
+
+        for (int i = 0; i < 21; i++)
+        {
+            PlayerPrefs.GetInt("QuestValue" + i, QuestValue[i]);
+            PlayerPrefs.GetInt("QuestClear" + i, QuestClear[i]);
+        }
     }
 
     IEnumerator SaveTimer()
@@ -222,6 +257,27 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
+    
+    public void ForcePlus(int force)
+    {
+        MagicForce += force;
+        QuestValue[2] += force;
+    }
+    public void ForceMinus(int force)
+    {
+        MagicForce -= force;
+        QuestValue[6] += force;
+    }
 
+    public void GemPlus(int gem)
+    {
+        MagicGem += gem;
+        QuestValue[3] += gem;
+    }
+    public void GemMinus(int gem)
+    {
+        MagicGem -= gem;
+        QuestValue[7] += gem;
+    }
 
 }

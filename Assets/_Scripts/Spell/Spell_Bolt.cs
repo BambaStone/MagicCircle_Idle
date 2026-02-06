@@ -63,6 +63,7 @@ public class Spell_Bolt : MonoBehaviour
             {
                 Instantiate(TriggerEffect, transform.position, Quaternion.identity);
                 ani.gameObject.SetActive(false);
+                _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);
                 Destroy(gameObject, 1f);
             }
         }

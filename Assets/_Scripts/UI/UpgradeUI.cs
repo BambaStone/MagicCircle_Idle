@@ -209,7 +209,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (needGem <= SaveDataManager.Instance.MagicGem)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicGem - needGem;
+            SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.Power++;
             SaveDataManager.Instance.TotalPowerCal();
             SetPowerUp();
@@ -228,7 +228,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (needGem <= SaveDataManager.Instance.MagicGem)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicGem - needGem;
+            SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.Speed++;
             SaveDataManager.Instance.TotalSpeedCal();
             SetSpeedUp();
@@ -246,7 +246,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (needGem <= SaveDataManager.Instance.MagicGem)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicGem - needGem;
+            SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.MaxSpellFiresCount++;
             SetSpellFireUp();
             SetInfo();
@@ -263,7 +263,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (needGem <= SaveDataManager.Instance.MagicGem)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicGem - needGem;
+            SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.MaxMakeSpell++;
             SaveDataManager.Instance.MakeSpellLevel++;
             SetSpellMakeUp();
@@ -282,7 +282,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (needGem <= SaveDataManager.Instance.MagicGem)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicGem - needGem;
+            SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.MaxHaveSpell= SaveDataManager.Instance.MaxHaveSpell+10;
             SetSpellMemoryUp();
             SetInfo();
@@ -298,7 +298,7 @@ public class UpgradeUI : MonoBehaviour
         int needForce= (SaveDataManager.Instance.SpellPower[i] + 1) * (i + 1);
         if (needForce <= SaveDataManager.Instance.MagicForce)
         {
-            SaveDataManager.Instance.MagicGem = SaveDataManager.Instance.MagicForce - needForce;
+            SaveDataManager.Instance.ForceMinus(needForce);
             SaveDataManager.Instance.SpellPower[i]++;
             SetSpellPowerUp(i);
             SetInfo();

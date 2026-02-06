@@ -10,7 +10,7 @@ public class Spell_Laser : MonoBehaviour
     public float rotationSpeed = 0.1f; // 회전 속도 조절 변수
 
     public float HitRate = 0;
-
+    public bool Hit = false;
 
     private GameObject _target;
     private Rigidbody2D _rigidbody2D;
@@ -31,7 +31,7 @@ public class Spell_Laser : MonoBehaviour
             ani.gameObject.SetActive(false);
             Destroy(gameObject,1f);
         }
-        if (_target != null && ani.gameObject.activeSelf)
+        if (_target != null && ani.gameObject.activeSelf && !Hit)
         {
             rotationSpeed = rotationSpeed + Time.deltaTime * 5;
             Vector2 targetPosition = _target.transform.position;
@@ -66,7 +66,9 @@ public class Spell_Laser : MonoBehaviour
                 if (1 <= HitRate)
                 {
                     HitRate = 0;
+                    Hit = true;
                     Vector2 closets = GetComponent<BoxCollider2D>().ClosestPoint(collision.transform.position);
+                    _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);
                     Instantiate(TriggerEffect, closets, Quaternion.identity);
                 }
             }
