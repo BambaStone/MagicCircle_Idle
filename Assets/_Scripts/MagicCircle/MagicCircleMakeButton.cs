@@ -27,6 +27,7 @@ public class MagicCircleMakeButton : MonoBehaviour
             if (OnMagicCircle.Count < SaveDataManager.Instance.MaxHaveSpell)
             {
                 MagicCircleSpawn();
+                SaveDataManager.Instance.QuestValue[10]++;//½ºÆçÁ¦ÀÛÄù½ºÆ®
                 SaveDataManager.Instance.NowMakeSpell--;
                 _nowMakeSpell--;
                 MakeSpellUI.text = _nowMakeSpell + " / " + _maxMakeSpell;

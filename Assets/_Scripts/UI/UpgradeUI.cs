@@ -8,7 +8,8 @@ public class UpgradeUI : MonoBehaviour
     public TMP_Text StageClearText;
     public TMP_Text BossClearText;
     public TMP_Text UnlockSpellText;
-    public TMP_Text AFKIncomeText;
+    public TMP_Text AFKIncomeForceText;
+    public TMP_Text AFKIncomeGemText;
     public TMP_Text TotalPowerText;
     public TMP_Text TotalSpeedText;
     public TMP_Text MaxSpellFireText;
@@ -53,7 +54,8 @@ public class UpgradeUI : MonoBehaviour
         StageClearText.text = "StageClear : "+SaveDataManager.Instance.StageClear;
         BossClearText.text = "BossClear : " + SaveDataManager.Instance.BossClear;
         UnlockSpellText.text = "UnlockSpell : " + SaveDataManager.Instance.UnlockSpell;
-        AFKIncomeText.text = "AFK Income :   "+SaveDataManager.Instance.AFKIncome;
+        AFKIncomeForceText.text = SaveDataManager.Instance.AFKIncomeForce + "/minute";
+        AFKIncomeGemText.text = SaveDataManager.Instance.AFKIncomeGem + "/minute";
         TotalPowerText.text = "TotalPower : "+SaveDataManager.Instance.TotalPower;
         TotalSpeedText.text = "TotalSpeed : " + SaveDataManager.Instance.TotalSpeed;
         MaxSpellFireText.text = "MaxSpellFire : "+SaveDataManager.Instance.MaxSpellFiresCount;
@@ -65,6 +67,7 @@ public class UpgradeUI : MonoBehaviour
         PowerText.text = "Power  LV. " + SaveDataManager.Instance.Power;
         Power_DamageText.text = "Damage + " + SaveDataManager.Instance.Power * 10 + "%";
         Power_NeedGemText.text = "" + (SaveDataManager.Instance.Power + 1) * 2;
+
     }
 
     void SetSpeedUp()
@@ -212,8 +215,10 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.Power++;
             SaveDataManager.Instance.TotalPowerCal();
+            SaveDataManager.Instance.QuestValue[4] = SaveDataManager.Instance.Power;//파워 N레벨달성 퀘스트
             SetPowerUp();
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
@@ -231,8 +236,10 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.GemMinus(needGem);
             SaveDataManager.Instance.Speed++;
             SaveDataManager.Instance.TotalSpeedCal();
+            SaveDataManager.Instance.QuestValue[5] = SaveDataManager.Instance.Speed;//스피드 N레벨달성 퀘스트
             SetSpeedUp();
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
@@ -250,6 +257,7 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.MaxSpellFiresCount++;
             SetSpellFireUp();
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
@@ -268,6 +276,7 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.MakeSpellLevel++;
             SetSpellMakeUp();
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
@@ -286,6 +295,7 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.MaxHaveSpell= SaveDataManager.Instance.MaxHaveSpell+10;
             SetSpellMemoryUp();
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
@@ -302,11 +312,16 @@ public class UpgradeUI : MonoBehaviour
             SaveDataManager.Instance.SpellPower[i]++;
             SetSpellPowerUp(i);
             SetInfo();
+            SaveDataManager.Instance.Save();
         }
         else
         {
             StartCoroutine(FalseUpgradeText_ForRed(SpellPower_NeedForce[i], 0));
         }
-        
+    }
+
+    private void FixedUpdate()
+    {
+        SetInfo();
     }
 }

@@ -6,6 +6,8 @@ public class GameUI : MonoBehaviour
 {
     public TMP_Text MagicForceText;
     public TMP_Text MagicGemText;
+    public TMP_Text ForcePlusText;
+    public TMP_Text GemPlusText;
     public GameObject UpgradeUI;
     public GameObject QuestUI;
     public TMP_Text SpellHaveText;
@@ -15,6 +17,9 @@ public class GameUI : MonoBehaviour
     private int _force;
     private int _gem;
 
+    private int _forcePlusCount;
+    private int _gemPlusCount;
+
     private int _nowHaveSpell;
     private int _maxHaveSpell;
     // Start is called before the first frame update
@@ -22,8 +27,10 @@ public class GameUI : MonoBehaviour
     {
         _force = SaveDataManager.Instance.MagicForce;
         MagicForceText.text = _force+"";
+        _forcePlusCount = SaveDataManager.Instance.ForcePlusList.Count;
         _gem = SaveDataManager.Instance.MagicGem;
         MagicGemText.text = _gem + "";
+        _gemPlusCount = SaveDataManager.Instance.GemPlusList.Count;
         _nowHaveSpell = SaveDataManager.Instance.SpellsCount;
         _maxHaveSpell = SaveDataManager.Instance.MaxHaveSpell;
         SpellHaveText.text = _nowHaveSpell + " / " + _maxHaveSpell;
@@ -46,12 +53,32 @@ public class GameUI : MonoBehaviour
         {
             _force = SaveDataManager.Instance.MagicForce;
             MagicForceText.text = _force + "";
+            
+        }
+        if(_forcePlusCount != SaveDataManager.Instance.ForcePlusList.Count)
+        {
+            _forcePlusCount = SaveDataManager.Instance.ForcePlusList.Count;
+            ForcePlusText.text = "";
+            for (int i = 0; i < _forcePlusCount; i++)
+            {
+                ForcePlusText.text += "+" + SaveDataManager.Instance.ForcePlusList[i] + " ";
+            }
         }
 
         if (_gem != SaveDataManager.Instance.MagicGem)
         {
             _gem = SaveDataManager.Instance.MagicGem;
             MagicGemText.text = _gem + "";
+            
+        }
+        if(_gemPlusCount != SaveDataManager.Instance.GemPlusList.Count)
+        {
+            _gemPlusCount = SaveDataManager.Instance.GemPlusList.Count;
+            GemPlusText.text = "";
+            for (int i = 0; i < _gemPlusCount; i++)
+            {
+                GemPlusText.text += "+" + SaveDataManager.Instance.GemPlusList[i] + " ";
+            }
         }
 
         if(_nowHaveSpell !=SaveDataManager.Instance.SpellsCount)

@@ -93,6 +93,7 @@ public class MagicCircle : MonoBehaviour
                     SameTarget.SetActive(false);
                     LevelChange(MagicLevel + 1);
                     SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
+                    SaveDataManager.Instance.QuestValue[11]++;//½ºÆçÇÕ¼ºÄù½ºÆ®
 
                 }
                 SameTarget = null;

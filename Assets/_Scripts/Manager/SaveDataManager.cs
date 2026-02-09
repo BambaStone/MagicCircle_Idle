@@ -56,20 +56,24 @@ public class SaveDataManager : MonoBehaviour
     public DateTime LastPlayTime;
     public DateTime NowLoginTime;
 
+    public int AFKIncomeForce;
+    public int AFKIncomeGem;
 
+    public List<int> BaseDamage;
     /*
     퀘스트 목록
-    0 : 몬스터킬 N회
-    1 : 보스킬 N회
-    2 : 총 포스 N개 획득
-    3 : 총 보석 N개 획득
-    4 : 파워 N레벨 달성
-    5 : 스피드 N레벨 달성
-    6 : 포스 N개 사용
-    7 : 보석 N개 사용
-    8 : 스테이지 N 클리어
-    9 : 보스 N 클리어
-    10 : 스펠 제작 N 회
+    0 : 몬스터킬 N회 : 100단위 /보상 5
+    1 : 보스킬 N회   : 5단위 /보상 5
+    2 : 총 포스 N개 획득  :  1000단위 /보상 2
+    3 : 총 보석 N개 획득  :  50단위 /보상 2
+    4 : 파워 N레벨 달성   :  5단위 /보상 2
+    5 : 스피드 N레벨 달성 :  5단위 /보상 2
+    6 : 포스 N개 사용     :  1000단위 /보상 1
+    7 : 보석 N개 사용     :  50단위 /보상 1
+    8 : 스테이지 N 클리어 :  5단위 /보상 1
+    9 : 보스 N 클리어     :  1단위 /보상 10
+    10 : 스펠 제작 N 회   :  10단위 /보상 1
+    11 : 스펠 합성 N 회   :  5단위 /보상 1
     QuestValue는 수행횟수
     QuestClear는 퀘스트 클리어 단계 : 이 단계를 통해 수행횟수의 목표를 지정
     예시 : 0번 퀘스트를 100킬 단위로 하면
@@ -78,10 +82,41 @@ public class SaveDataManager : MonoBehaviour
     */
     public List<int> QuestValue;
     public List<int> QuestClear;
+    public List<int> QuestUnit;
+    public List<int> QuestReword;
 
-    public int AFKIncome;
+    public void SetQuestUnit()
+    {
+        QuestUnit.Add(100);
+        QuestUnit.Add(5);
+        QuestUnit.Add(1000);
+        QuestUnit.Add(50);
+        QuestUnit.Add(5);
+        QuestUnit.Add(5);
+        QuestUnit.Add(1000);
+        QuestUnit.Add(50);
+        QuestUnit.Add(5);
+        QuestUnit.Add(1);
+        QuestUnit.Add(10);
+        QuestUnit.Add(5);
 
-    public List<int> BaseDamage;
+        QuestReword.Add(5);
+        QuestReword.Add(5);
+        QuestReword.Add(2);
+        QuestReword.Add(2);
+        QuestReword.Add(2);
+        QuestReword.Add(2);
+        QuestReword.Add(1);
+        QuestReword.Add(1);
+        QuestReword.Add(1);
+        QuestReword.Add(10);
+        QuestReword.Add(1);
+        QuestReword.Add(1);
+
+    }
+
+
+    
     public void TotalSpeedCal()
     {
         TotalSpeed = (Speed * 0.1f) + 1;
@@ -107,11 +142,16 @@ public class SaveDataManager : MonoBehaviour
     }
 
     
-
+    void AFKSet()
+    {
+        AFKIncomeForce = (StageClear + 1) * 500;
+        AFKIncomeGem = (StageClear + 1) * 5;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        SetQuestUnit();
         Load();
         StartCoroutine(SaveTimer());
         BaseDamage.Add(1);
@@ -119,6 +159,7 @@ public class SaveDataManager : MonoBehaviour
         {
             BaseDamage.Add(BaseDamage[i-1] * 2);
         }
+        AFKSet();
     }
 
     public void Load()
@@ -138,28 +179,7 @@ public class SaveDataManager : MonoBehaviour
         MagicForce = PlayerPrefs.GetInt("MagicForce", 0);
         MagicGem = PlayerPrefs.GetInt("MagicGem", 0);
 
-        string tempTimeStr = PlayerPrefs.GetString("LastPlayTime", "");
-
-        if(string.IsNullOrEmpty(tempTimeStr))
-        {
-            Debug.Log("First Play");
-            LastPlayTime = DateTime.Now;
-        }
-        else
-        {
-            LastPlayTime = DateTime.Parse(tempTimeStr);
-        }
-        NowLoginTime = DateTime.Now;
-
-        TimeSpan timeDif = NowLoginTime - LastPlayTime;
-        if(0<timeDif.TotalMinutes)
-        {
-            NowMakeSpell = NowMakeSpell + (int)timeDif.TotalMinutes;
-            if(MaxMakeSpell<NowMakeSpell)
-            {
-                NowMakeSpell = MaxMakeSpell;
-            }
-        }
+        
 
         SpellsCount = PlayerPrefs.GetInt("SpellsCount", 0);
         for (int i = 0; i < SpellsCount; i++)
@@ -180,10 +200,35 @@ public class SaveDataManager : MonoBehaviour
             SpellPower.Add(PlayerPrefs.GetInt("SpellPower"+i, 0));
         }
 
-        for(int i=0;i<21;i++)
+        for(int i=0;i<12;i++)
         {
             QuestValue.Add(PlayerPrefs.GetInt("QuestValue"+i,0));
             QuestClear.Add(PlayerPrefs.GetInt("QuestClear" + i, 0));
+        }
+
+        string tempTimeStr = PlayerPrefs.GetString("LastPlayTime", "");
+
+        if (string.IsNullOrEmpty(tempTimeStr))
+        {
+            Debug.Log("First Play");
+            LastPlayTime = DateTime.Now;
+        }
+        else
+        {
+            LastPlayTime = DateTime.Parse(tempTimeStr);
+        }
+        NowLoginTime = DateTime.Now;
+
+        TimeSpan timeDif = NowLoginTime - LastPlayTime;
+        if (0 < timeDif.TotalMinutes)
+        {
+            NowMakeSpell = NowMakeSpell + (int)timeDif.TotalMinutes;
+            ForcePlus(AFKIncomeForce * (int)timeDif.TotalMinutes);
+            GemPlus(AFKIncomeGem * (int)timeDif.TotalMinutes);
+            if (MaxMakeSpell < NowMakeSpell)
+            {
+                NowMakeSpell = MaxMakeSpell;
+            }
         }
 
         TotalSpeedCal();
@@ -224,15 +269,26 @@ public class SaveDataManager : MonoBehaviour
         }
         for (int i = 0; i < 12; i++)
         {
-            PlayerPrefs.GetInt("SpellPower" + i, SpellPower[i]);
+            PlayerPrefs.SetInt("SpellPower" + i, SpellPower[i]);
         }
 
-        for (int i = 0; i < 21; i++)
+        for (int i = 0; i < 12; i++)
         {
-            PlayerPrefs.GetInt("QuestValue" + i, QuestValue[i]);
-            PlayerPrefs.GetInt("QuestClear" + i, QuestClear[i]);
+            PlayerPrefs.SetInt("QuestValue" + i, QuestValue[i]);
+            PlayerPrefs.SetInt("QuestClear" + i, QuestClear[i]);
         }
     }
+
+    public bool QuestClearCheck(int i)
+    {
+        if ((QuestClear[i] + 1) * QuestUnit[i] <= QuestValue[i])
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
 
     IEnumerator SaveTimer()
     {
@@ -249,35 +305,71 @@ public class SaveDataManager : MonoBehaviour
     }
     public void SaveTime()
     {
-        MagicForce = MagicForce + 10;
-        MagicGem = MagicGem + 1;
+        ForcePlus(AFKIncomeForce);
+        GemPlus(AFKIncomeGem);
         if (NowMakeSpell < MaxMakeSpell)
         {
             NowMakeSpell = NowMakeSpell + 1;
         }
     }
 
-    
+    public void StageClears()
+    {
+        StageClear++;
+        AFKSet();
+        QuestValue[8] = StageClear;//스테이지클리어퀘스트
+    }
+
+    public List<int> ForcePlusList;
     public void ForcePlus(int force)
     {
+        if (3 <= ForcePlusList.Count)
+        {
+            ForcePlusList.RemoveAt(0);
+            StopCoroutine(ForcePlusRemove());
+        }
+        ForcePlusList.Add(force);
+        StartCoroutine(ForcePlusRemove());
         MagicForce += force;
         QuestValue[2] += force;
+        
     }
+    IEnumerator ForcePlusRemove()
+    {
+        yield return new WaitForSeconds(3f);
+        ForcePlusList.RemoveAt(0);
+    }
+
     public void ForceMinus(int force)
     {
         MagicForce -= force;
         QuestValue[6] += force;
     }
 
+    public List<int> GemPlusList;
     public void GemPlus(int gem)
     {
+        if (3 <= GemPlusList.Count)
+        {
+            GemPlusList.RemoveAt(0);
+            StopCoroutine(GemPlusRemove());
+
+        }
+        GemPlusList.Add(gem);
+        StartCoroutine(GemPlusRemove());
         MagicGem += gem;
         QuestValue[3] += gem;
+    }
+
+    IEnumerator GemPlusRemove()
+    {
+        yield return new WaitForSeconds(3f);
+        GemPlusList.RemoveAt(0);
     }
     public void GemMinus(int gem)
     {
         MagicGem -= gem;
         QuestValue[7] += gem;
     }
-
+    
 }

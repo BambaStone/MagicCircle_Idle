@@ -30,8 +30,8 @@ public class Stage : MonoBehaviour
     }
     public void NextStage()
     {
-        SaveDataManager.Instance.ForcePlus(10 * (SaveDataManager.Instance.StageClear + 1));
-        SaveDataManager.Instance.StageClear++;
+        SaveDataManager.Instance.ForcePlus(100 * (SaveDataManager.Instance.StageClear + 1));
+        SaveDataManager.Instance.StageClears();
         SaveDataManager.Instance.Save();
         resetStage();
     }

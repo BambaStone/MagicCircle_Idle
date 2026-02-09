@@ -25,7 +25,7 @@ public class Stage_Mob : MonoBehaviour
 
     void HPSet()
     {
-        string hp = (int)NowHP + "/" + (int)MaxHP + " ";
+        string hp = float.Parse(NowHP.ToString("N2")) + "/" + MaxHP + " ";
         float ShowHP = NowHP/(MaxHP * 0.1f);
         
         for (int i = 0; i < ShowHP; i++)
@@ -73,10 +73,10 @@ public class Stage_Mob : MonoBehaviour
 
     public void DieMob()
     {
-        SaveDataManager.Instance.QuestValue[0]++;
+        SaveDataManager.Instance.QuestValue[0]++;//몬스터사냥퀘스트
         Destroy( Instantiate(DieEffect,transform.position, Quaternion.identity),1f);
         MobNum++;
-        SaveDataManager.Instance.ForcePlus((SaveDataManager.Instance.StageClear + 1));
+        SaveDataManager.Instance.ForcePlus((SaveDataManager.Instance.StageClear + 1)*10);
         if(20<=MobNum)
         {
             StageData.NextStage();
