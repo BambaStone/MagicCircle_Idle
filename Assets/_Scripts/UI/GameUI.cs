@@ -10,9 +10,11 @@ public class GameUI : MonoBehaviour
     public TMP_Text GemPlusText;
     public GameObject UpgradeUI;
     public GameObject QuestUI;
+    public GameObject BossUI;
+    public GameObject MenuUI;
     public TMP_Text SpellHaveText;
 
-    private int _uiNow = 0;
+    public int UINow = 0;
 
     private int _force;
     private int _gem;
@@ -93,42 +95,105 @@ public class GameUI : MonoBehaviour
         }
     }
 
+
+
     public void UpgradeButton()
     {
-        switch(_uiNow)
+        switch(UINow)
         {
             case 0:
                 UpgradeUI.SetActive(true);
-                _uiNow = 1;
+                UINow = 1;
                 break;
             case 1:
                 UpgradeUI.SetActive(false);
-                _uiNow = 0;
+                UINow = 0;
                 break;
             case 2:
                 QuestUI.SetActive(false);
                 UpgradeUI.SetActive(true);
-                _uiNow = 1;
+                UINow = 1;
+                break;
+            case 3:
+                BossUI.SetActive(false);
+                UpgradeUI.SetActive(true);
+                UINow = 1;
                 break;
         }
     }
 
     public void QuestButton()
     {
-        switch (_uiNow)
+        switch (UINow)
         {
             case 0:
                 QuestUI.SetActive(true);
-                _uiNow = 2;
+                UINow = 2;
                 break;
             case 1:
                 UpgradeUI.SetActive(false);
                 QuestUI.SetActive(true);
-                _uiNow = 2;
+                UINow = 2;
                 break;
             case 2:
                 QuestUI.SetActive(false);
-                _uiNow = 0;
+                UINow = 0;
+                break;
+            case 3:
+                BossUI.SetActive(false);
+                QuestUI.SetActive(true);
+                UINow = 2;
+                break;
+        }
+    }
+
+    public void BossButton()
+    {
+        switch (UINow)
+        {
+            case 0:
+                BossUI.SetActive(true);
+                UINow = 3;
+                break;
+            case 1:
+                UpgradeUI.SetActive(false);
+                BossUI.SetActive(true);
+                UINow = 3;
+                break;
+            case 2:
+                QuestUI.SetActive(false);
+                BossUI.SetActive(true);
+                UINow = 3;
+                break;
+            case 3:
+                BossUI.SetActive(false);
+                UINow = 0;
+                break;
+        }
+    }
+
+    public void MenuButton()
+    {
+        switch (UINow)
+        {
+            case 0:
+                MenuUI.SetActive(true);
+                UINow = 4;
+                break;
+            case 1:
+                UpgradeUI.SetActive(false);
+                MenuUI.SetActive(true);
+                UINow = 4;
+                break;
+            case 2:
+                QuestUI.SetActive(false);
+                MenuUI.SetActive(true);
+                UINow = 4;
+                break;
+            case 3:
+                BossUI.SetActive(false);
+                MenuUI.SetActive(true);
+                UINow = 4;
                 break;
         }
     }

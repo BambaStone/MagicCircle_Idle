@@ -56,6 +56,11 @@ public class SaveDataManager : MonoBehaviour
     public DateTime LastPlayTime;
     public DateTime NowLoginTime;
 
+    public float Volume;
+
+    public bool BossFight = false;
+    public int FightBossNum = -1;
+
     public int AFKIncomeForce;
     public int AFKIncomeGem;
 
@@ -179,7 +184,7 @@ public class SaveDataManager : MonoBehaviour
         MagicForce = PlayerPrefs.GetInt("MagicForce", 0);
         MagicGem = PlayerPrefs.GetInt("MagicGem", 0);
 
-        
+        Volume = PlayerPrefs.GetFloat("Volume", 1);
 
         SpellsCount = PlayerPrefs.GetInt("SpellsCount", 0);
         for (int i = 0; i < SpellsCount; i++)
@@ -254,6 +259,8 @@ public class SaveDataManager : MonoBehaviour
         PlayerPrefs.SetInt("MagicForce", MagicForce);
         PlayerPrefs.SetInt("MagicGem", MagicGem);
 
+        PlayerPrefs.SetFloat("Volume", Volume);
+
         PlayerPrefs.SetInt("SpellsCount", SpellsCount);
         for (int i = 0; i < SpellsCount; i++)
         {
@@ -301,6 +308,8 @@ public class SaveDataManager : MonoBehaviour
 
     public void Cheat()
     {
+        ForcePlus(AFKIncomeForce);
+        GemPlus(AFKIncomeGem);
         NowMakeSpell = MaxMakeSpell;
     }
     public void SaveTime()
@@ -337,7 +346,8 @@ public class SaveDataManager : MonoBehaviour
     IEnumerator ForcePlusRemove()
     {
         yield return new WaitForSeconds(3f);
-        ForcePlusList.RemoveAt(0);
+        if(0<ForcePlusList.Count)
+            ForcePlusList.RemoveAt(0);
     }
 
     public void ForceMinus(int force)
@@ -364,7 +374,8 @@ public class SaveDataManager : MonoBehaviour
     IEnumerator GemPlusRemove()
     {
         yield return new WaitForSeconds(3f);
-        GemPlusList.RemoveAt(0);
+        if(0<GemPlusList.Count)
+            GemPlusList.RemoveAt(0);
     }
     public void GemMinus(int gem)
     {

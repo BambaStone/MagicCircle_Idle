@@ -35,7 +35,7 @@ Transform:
   - {fileID: 2789157942480125015}
   - {fileID: 1083075715550984040}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1586517047141023312
 Rigidbody2D:
@@ -96,7 +96,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.26}
+  m_Offset: {x: 0, y: 5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -107,7 +107,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 5}
+  m_Size: {x: 0.9, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &2128668557240358453
 MonoBehaviour:
@@ -125,6 +125,7 @@ MonoBehaviour:
   ani: {fileID: 241988545049965250}
   rotationSpeed: 10
   HitRate: 1
+  Hit: 0
 --- !u!114 &6937358584680945930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3128402594320518241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.02, y: 2.3, z: 0}
+  m_LocalPosition: {x: 0, y: 4.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -271,8 +272,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4967430848550736581}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.02000001, y: 2.2999997, z: 0}
-  m_LocalScale: {x: 2.3000004, y: 2.3, z: 1}
+  m_LocalPosition: {x: -0.02000001, y: 5, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 938074429324323236}
@@ -414,8 +415,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
-      minScalar: -0.5
+      scalar: 0.25
+      minScalar: -0.25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -533,7 +534,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.01
-      minScalar: 0.1
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:

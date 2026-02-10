@@ -56,6 +56,13 @@ public class Spell_Laser : MonoBehaviour
         _target = GetComponent<SpellData>().Target;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Hit = true;
+        }
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (ani.gameObject.activeSelf)
@@ -66,9 +73,13 @@ public class Spell_Laser : MonoBehaviour
                 if (1 <= HitRate)
                 {
                     HitRate = 0;
-                    Hit = true;
                     Vector2 closets = GetComponent<BoxCollider2D>().ClosestPoint(collision.transform.position);
-                    _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);
+                    if (SaveDataManager.Instance.BossFight)
+                    { }
+                    else
+                    {
+                        _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);
+                    }
                     Instantiate(TriggerEffect, closets, Quaternion.identity);
                 }
             }

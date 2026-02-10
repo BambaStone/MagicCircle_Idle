@@ -31,7 +31,18 @@ public class MagicCircleMakeButton : MonoBehaviour
                 SaveDataManager.Instance.NowMakeSpell--;
                 _nowMakeSpell--;
                 MakeSpellUI.text = _nowMakeSpell + " / " + _maxMakeSpell;
+                
             }
+        }
+    }
+
+    private void MakeHighLevelSpell(MagicCircle spell)
+    {
+        int random = Random.Range(0, 100);
+        if(random<SaveDataManager.Instance.MakeSpellLevel)
+        {
+            spell.LevelChange(spell.MagicLevel+1);
+            MakeHighLevelSpell(spell);
         }
     }
 
@@ -64,8 +75,9 @@ public class MagicCircleMakeButton : MonoBehaviour
                 OnMagicCircle.Add(Recycling[i]);
                 Recycling[i].GetComponent<MagicCircle>().SpellNum = SaveDataManager.Instance.SpellsCount;
                 SaveDataManager.Instance.SpellsCount= OnMagicCircle.Count;
-                SaveDataManager.Instance.SpellLevel.Add(0);
                 SaveDataManager.Instance.SpellFireOn.Add(false);
+                MakeHighLevelSpell(Recycling[i].GetComponent<MagicCircle>());
+                SaveDataManager.Instance.SpellLevel.Add(Recycling[i].GetComponent<MagicCircle>().MagicLevel);
                 succes = true;
                 break;
             }
@@ -79,8 +91,9 @@ public class MagicCircleMakeButton : MonoBehaviour
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellFires = SpellFireObj;
             Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().Spawner = gameObject.GetComponent<MagicCircleMakeButton>();
             SaveDataManager.Instance.SpellsCount = OnMagicCircle.Count;
-            SaveDataManager.Instance.SpellLevel.Add(0);
             SaveDataManager.Instance.SpellFireOn.Add(false);
+            MakeHighLevelSpell(Recycling[Recycling.Count - 1].GetComponent<MagicCircle>());
+            SaveDataManager.Instance.SpellLevel.Add(Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().MagicLevel);
             Recycling[Recycling.Count - 1].SetActive(true);
         }
 

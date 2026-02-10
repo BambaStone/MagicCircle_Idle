@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class MenuUI : MonoBehaviour
 {
@@ -9,12 +10,16 @@ public class MenuUI : MonoBehaviour
     public TMP_Text UnlockSpellText;
     public TMP_Text AFKIncomeForceText;
     public TMP_Text AFKIncomeGemText;
+    public Slider VolumeSlider;
+    public TMP_InputField CodeInput;
 
     private int _stageClear;
     private int _bossClear;
     private int _unLockSpell;
     private int _forceAFK;
     private int _gemAFK;
+
+    public GameUI Game_UI;
 
     void SetInfo()
     {
@@ -34,6 +39,7 @@ public class MenuUI : MonoBehaviour
     private void OnEnable()
     {
         SetInfo();
+        VolumeSlider.value = SaveDataManager.Instance.Volume;
     }
 
 
@@ -61,5 +67,38 @@ public class MenuUI : MonoBehaviour
             AFKIncomeForceText.text = _forceAFK + "/min";
             AFKIncomeGemText.text = _gemAFK + "/min";
         }
+    }
+
+    public void SetVolumeSlider(float Handle)
+    {
+        SaveDataManager.Instance.Volume = Handle;
+    }
+
+    public void CodeButton()
+    {
+        if(CodeInput.text == "Cheat")
+        {
+            SaveDataManager.Instance.Cheat();
+            CodeInput.text = "CheatUse!";
+        }
+        else
+        {
+            CodeInput.text = "nothing";
+        }
+        
+    }
+
+    public void GameCloseButton()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+    public void BackButton()
+    {
+        SaveDataManager.Instance.Save();
+        Game_UI.UINow = 0;
+        gameObject.SetActive(false);
     }
 }

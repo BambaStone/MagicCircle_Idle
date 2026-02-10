@@ -88,13 +88,12 @@ public class MagicCircle : MonoBehaviour
         {
             if (SameTarget != null)
             {
-                if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
+                if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel && MagicLevel<11)
                 {
                     SameTarget.SetActive(false);
                     LevelChange(MagicLevel + 1);
                     SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
                     SaveDataManager.Instance.QuestValue[11]++;//½ºÆçÇÕ¼ºÄù½ºÆ®
-
                 }
                 SameTarget = null;
             }
@@ -202,6 +201,8 @@ public class MagicCircle : MonoBehaviour
     public void LevelChange(int level)
     {
         MagicLevel = level;
+        if (11 < MagicLevel)
+            MagicLevel = 11;
         SR.sprite = images[MagicLevel];
         if (SaveDataManager.Instance.UnlockSpell < MagicLevel)
         {
