@@ -60,6 +60,7 @@ public class SaveDataManager : MonoBehaviour
 
     public bool BossFight = false;
     public int FightBossNum = -1;
+    public bool BossKill = false;
 
     public int AFKIncomeForce;
     public int AFKIncomeGem;

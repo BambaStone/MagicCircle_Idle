@@ -127,4 +127,10 @@ public class SpellFire : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Fire = true;
     }
+
+    public void Stop()
+    {
+        StopCoroutine(FireTimer());
+        Fire = false;
+    }
 }
