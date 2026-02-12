@@ -75,7 +75,9 @@ public class Spell_Laser : MonoBehaviour
                     HitRate = 0;
                     Vector2 closets = GetComponent<BoxCollider2D>().ClosestPoint(collision.transform.position);
                     if (SaveDataManager.Instance.BossFight)
-                    { }
+                    {
+                        _target.GetComponent<Stage_Boss>().BossHit(GetComponent<SpellData>().Damage);
+                    }
                     else
                     {
                         _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);

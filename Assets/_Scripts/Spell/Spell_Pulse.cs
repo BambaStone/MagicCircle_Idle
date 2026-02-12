@@ -64,7 +64,9 @@ public class Spell_Pulse : MonoBehaviour
             {
                 Instantiate(TriggerEffect, transform.position, Quaternion.identity);
                 if (SaveDataManager.Instance.BossFight)
-                { }
+                {
+                    _target.GetComponent<Stage_Boss>().BossHit(GetComponent<SpellData>().Damage);
+                }
                 else
                 {
                     _target.GetComponent<Stage>().Hit(GetComponent<SpellData>().Damage);

@@ -6,32 +6,54 @@ using UnityEngine.SceneManagement;
 
 public class Stage_Boss : MonoBehaviour
 {
-    public float TimeOut;
-    public bool Attack;
-    public TMP_Text StageText;
+    public float TimeOut=300f;
     public TMP_Text TimeOutText;
-    public float MaxTimeOut = 300f;
 
     public SpriteRenderer SR;
     public List<Sprite> images;
+    public List<GameObject> Boss_Effect;
 
     public TMP_Text PlayerHPText;
     public float PlayerMaxHP;
     public float PlayerNowHP;
-    public float PlyaerStageHP = 10;
+    public float PlayerStageHP = 10;
 
     public int BossNum = 0;
     public TMP_Text BossHPText;
     public float BossMaxHP;
     public float BossNowHP;
-    public float BossStageHP = 100f;
+    public float BossStageHP = 500f;
 
     public bool FightOver = false;
+    bool bossAttack = false;
 
     public GameObject BossKillText;
     public GameObject YouFailedText;
     public GameObject DieEffect;
     public SpellFire SpellFires;
+
+    private void Start()
+    {
+        StartCoroutine(SetBoss());
+    }
+
+    IEnumerator SetBoss()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayerMaxHP = (SaveDataManager.Instance.StageClear+1) * PlayerStageHP;
+        PlayerNowHP = PlayerMaxHP;
+        PlayerHPSet();
+        BossNum = SaveDataManager.Instance.FightBossNum;
+        BossMaxHP = BossStageHP;
+        for (int i = 0; i < BossNum; i++)
+        {
+            BossMaxHP *= 2;
+        }
+        BossNowHP = BossMaxHP;
+        BossHPSet();
+        SR.sprite = images[BossNum];
+        StartCoroutine(BossAttack());
+    }
 
     void PlayerHPSet()
     {
@@ -61,7 +83,7 @@ public class Stage_Boss : MonoBehaviour
 
     public void BossHit(float Damage)
     {
-        if (0 < BossNowHP)
+        if (0 < BossNowHP && !FightOver)
         {
             BossNowHP = BossNowHP - Damage;
             BossHPSet();
@@ -74,7 +96,7 @@ public class Stage_Boss : MonoBehaviour
 
     public void PlayerHit(float Damage)
     {
-        if (0 < PlayerNowHP)
+        if (0 < PlayerNowHP && !FightOver)
         {
             PlayerNowHP = PlayerNowHP - Damage;
             PlayerHPSet();
@@ -109,8 +131,32 @@ public class Stage_Boss : MonoBehaviour
         StartCoroutine(BossKillSucces());
     }
 
+    IEnumerator BossAttack()
+    {
+        yield return new WaitForSeconds(5f);
+        if (0 < BossNowHP)
+        {
+            bossAttack = true;
+            StartCoroutine(BossAttackEffect());
+            StartCoroutine(BossAttack());
+        }
+    }
+
+    IEnumerator BossAttackEffect()
+    {
+        yield return new WaitForSeconds(0.25f);
+        bossAttack = false;
+        Destroy(Instantiate(Boss_Effect[BossNum], transform.position, Quaternion.identity), 2f);
+        yield return new WaitForSeconds(0.5f);
+        PlayerHit((BossNum+1) * (BossNum + 1)*10);
+
+    }
+
     IEnumerator BossKillSucces()
     {
+        StopCoroutine(BossAttackEffect());
+        StopCoroutine(BossAttack());
+        bossAttack = false;
         BossKillText.SetActive(true);
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Game");
@@ -118,6 +164,9 @@ public class Stage_Boss : MonoBehaviour
 
     IEnumerator YouFailed()
     {
+        StopCoroutine(BossAttackEffect());
+        StopCoroutine(BossAttack());
+        bossAttack = false;
         YouFailedText.SetActive(true);
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Game");
@@ -127,6 +176,21 @@ public class Stage_Boss : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (bossAttack)
+        {
+            transform.Translate(Vector2.down * Time.deltaTime * 4f);
+        }
+        else if( transform.position.y < 6.5f)
+        {
+            transform.Translate(Vector2.up * Time.deltaTime * 4f);
+        }
+        else if( 6.5f<transform.position.y)
+        {
+            transform.position = new Vector2(0, 6.5f);
+        }
+
+
         if (!FightOver)
         {
             TimeOut = TimeOut - Time.deltaTime;
@@ -136,12 +200,6 @@ public class Stage_Boss : MonoBehaviour
                 PlayerLose();
             }
         }
-        if(FightOver)
-        {
-            if(0<BossNowHP)
-            {
-                transform.Translate(Vector2.up*Time.deltaTime);
-            }
-        }
+        
     }
 }

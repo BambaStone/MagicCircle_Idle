@@ -56,83 +56,95 @@ public class MagicCircle : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-        Effect.GetComponent<Renderer>().sortingOrder = 11;
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
-        Debug.Log("마법진드래그");
+        if (!SaveDataManager.Instance.BossFight)
+        {
+            gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+            Effect.GetComponent<Renderer>().sortingOrder = 11;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
+            Debug.Log("마법진드래그");
+        }
     }
 
     private void OnMouseDrag()
     {
-
-        ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        ClickPoint.z = 0;
-        gameObject.transform.position = ClickPoint;
-        if (!(gameObject.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static))
+        if (!SaveDataManager.Instance.BossFight)
         {
-            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ClickPoint.z = 0;
+            gameObject.transform.position = ClickPoint;
+            if (!(gameObject.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static))
+            {
+                gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
         }
     }
     private void OnMouseUp()
     {
-        if (OnFire && SpellFires.FireSpellList.Count < SaveDataManager.Instance.MaxSpellFiresCount)
+        if (!SaveDataManager.Instance.BossFight)
         {
-            SameTarget = null;
-            SpellFires.OnSpell(gameObject);
-            SaveDataManager.Instance.SpellFireOn[SpellNum] = true;
-            Effect.GetComponent<Renderer>().sortingOrder = 11;
-            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
-            gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-        }
-        else
-        {
-            if (SameTarget != null)
+            if (OnFire && SpellFires.FireSpellList.Count < SaveDataManager.Instance.MaxSpellFiresCount)
             {
-                if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel && MagicLevel<11)
-                {
-                    SameTarget.SetActive(false);
-                    LevelChange(MagicLevel + 1);
-                    SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
-                    SaveDataManager.Instance.QuestValue[11]++;//스펠합성퀘스트
-                }
                 SameTarget = null;
+                SpellFires.OnSpell(gameObject);
+                SaveDataManager.Instance.SpellFireOn[SpellNum] = true;
+                Effect.GetComponent<Renderer>().sortingOrder = 11;
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
+                gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
             }
-
-            if (SpellFires != null)
+            else
             {
-                SpellFires.OffSpell(gameObject);
-                SaveDataManager.Instance.SpellFireOn[SpellNum] = false;
-            }
+                if (SameTarget != null)
+                {
+                    if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel && MagicLevel < 11 && !OnFire)
+                    {
+                        SameTarget.SetActive(false);
+                        LevelChange(MagicLevel + 1);
+                        SaveDataManager.Instance.SpellLevel[SpellNum] = MagicLevel;
+                        SaveDataManager.Instance.QuestValue[11]++;//스펠합성퀘스트
+                    }
+                    SameTarget = null;
+                }
 
-            if (WallOut)
-            {
-                transform.position = new Vector2(0, -1);
-                gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
-                WallOut = false;
-            }
+                if (SpellFires != null)
+                {
+                    SpellFires.OffSpell(gameObject);
+                    SaveDataManager.Instance.SpellFireOn[SpellNum] = false;
+                }
 
-            Effect.GetComponent<Renderer>().sortingOrder = 9;
-            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
-            gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+                if (WallOut)
+                {
+                    transform.position = new Vector2(0, -1);
+                    gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
+                    WallOut = false;
+                }
+
+                Effect.GetComponent<Renderer>().sortingOrder = 9;
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
+                gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+            }
         }
-
 
     }
 
     private void OnDisable()
     {
-        if (SpellNum != Spawner.OnMagicCircle.Count - 1)
+        if (!SaveDataManager.Instance.BossFight)
         {
-            for (int i = SpellNum; i < Spawner.OnMagicCircle.Count - 1; i++)
+            if (SpellNum != Spawner.OnMagicCircle.Count - 1)
             {
-                Spawner.OnMagicCircle[i + 1].GetComponent<MagicCircle>().SpellNum = i;
+                for (int i = SpellNum; i < Spawner.OnMagicCircle.Count - 1; i++)
+                {
+                    Spawner.OnMagicCircle[i + 1].GetComponent<MagicCircle>().SpellNum = i;
+                }
             }
+            Spawner.OnMagicCircle.RemoveAt(SpellNum);
+            SaveDataManager.Instance.SpellLevel.RemoveAt(SpellNum);
+            SaveDataManager.Instance.SpellFireOn.RemoveAt(SpellNum);
+            SaveDataManager.Instance.SpellsCount--;
+            SpellNum = -1;
+
+            Debug.Log("ondisable");
         }
-        Spawner.OnMagicCircle.RemoveAt(SpellNum);
-        SaveDataManager.Instance.SpellLevel.RemoveAt(SpellNum);
-        SaveDataManager.Instance.SpellFireOn.RemoveAt(SpellNum);
-        SaveDataManager.Instance.SpellsCount--;
-        SpellNum = -1;
     }
 
 

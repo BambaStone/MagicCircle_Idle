@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766094595174027202}
-  - component: {fileID: 7865187314875545902}
+  - component: {fileID: 8765539856872565205}
   - component: {fileID: 1416240109794334000}
   m_Layer: 0
   m_Name: Spell_3
@@ -26,16 +26,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390849896071533961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.47175372, y: 0.42543083, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9201672660393038473}
-  - {fileID: 9144030529990589879}
+  - {fileID: 2204435350556630019}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7865187314875545902
+--- !u!114 &8765539856872565205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,11 +43,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390849896071533961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4edff1af83e9dd3449e99c47124f961d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f93df4f73154e24fabaa5ae5d33ea44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spell_1_1: {fileID: 1854655256981927644}
-  Spell_1_2: {fileID: 1795239674419812834}
+  Spell_1: {fileID: 2793332104566465952}
 --- !u!114 &1416240109794334000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,15 +61,76 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   Damage: 0
-  UpgradeLevel: 0
-  CircleLevel: 0
+--- !u!1 &8963315537195082439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2204435350556630019}
+  - component: {fileID: 5528988804127735756}
+  - component: {fileID: 2793332104566465952}
+  m_Layer: 0
+  m_Name: Spell_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2204435350556630019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963315537195082439}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.84, y: 1.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9201672660393038473}
+  - {fileID: 9144030529990589879}
+  m_Father: {fileID: 1766094595174027202}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5528988804127735756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963315537195082439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4edff1af83e9dd3449e99c47124f961d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spell_1_1: {fileID: 1854655256981927644}
+  Spell_1_2: {fileID: 1795239674419812834}
+--- !u!114 &2793332104566465952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963315537195082439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ea8babb151b5740afd38e2eaa1529a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  Damage: 0
 --- !u!1001 &1301816009147249607
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1766094595174027202}
+    m_TransformParent: {fileID: 2204435350556630019}
     m_Modifications:
     - target: {fileID: 1617407385326758369, guid: 8161622d52557f543bef337ad3c75f45, type: 3}
       propertyPath: m_Name
@@ -148,7 +207,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1766094595174027202}
+    m_TransformParent: {fileID: 2204435350556630019}
     m_Modifications:
     - target: {fileID: 1617407385326758369, guid: 8161622d52557f543bef337ad3c75f45, type: 3}
       propertyPath: m_Name

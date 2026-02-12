@@ -59,7 +59,7 @@ public class SaveDataManager : MonoBehaviour
     public float Volume;
 
     public bool BossFight = false;
-    public int FightBossNum = -1;
+    public int FightBossNum=-1;
     public bool BossKill = false;
 
     public int AFKIncomeForce;
@@ -147,11 +147,23 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
+    public void BossKillCheck()
+    {
+        if(BossKill)
+        {
+            BossKill = false;
+            AFKSet();
+            GemPlus((FightBossNum+1)*10);
+        }
+        FightBossNum = -1;
+        BossFight = false;
+        Save();
+    }
     
     void AFKSet()
     {
         AFKIncomeForce = (StageClear + 1) * 500;
-        AFKIncomeGem = (StageClear + 1) * 5;
+        AFKIncomeGem = (BossClear + 1) * 10+(int)(StageClear*0.1f);
     }
 
     // Start is called before the first frame update

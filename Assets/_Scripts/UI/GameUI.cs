@@ -36,6 +36,7 @@ public class GameUI : MonoBehaviour
         _nowHaveSpell = SaveDataManager.Instance.SpellsCount;
         _maxHaveSpell = SaveDataManager.Instance.MaxHaveSpell;
         SpellHaveText.text = _nowHaveSpell + " / " + _maxHaveSpell;
+
     }
 
 

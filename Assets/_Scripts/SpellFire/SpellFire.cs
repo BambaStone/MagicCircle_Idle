@@ -17,6 +17,8 @@ public class SpellFire : MonoBehaviour
     public bool Fire=false;
     public int SpellFireLine=1;
 
+    bool stop = false;
+
     static int MaxSpellFireLine=8;
     // Start is called before the first frame update
     void Start()
@@ -125,12 +127,12 @@ public class SpellFire : MonoBehaviour
     IEnumerator FireTimer()
     {
         yield return new WaitForSeconds(1f);
-        Fire = true;
+        if(!stop)
+            Fire = true;
     }
 
     public void Stop()
     {
-        StopCoroutine(FireTimer());
-        Fire = false;
+        stop = true;
     }
 }
