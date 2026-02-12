@@ -40,15 +40,6 @@ public class GameUI : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("A´©¸§");
-            SaveDataManager.Instance.Cheat();
-            SaveDataManager.Instance.Save();
-        }
-    }
 
     private void FixedUpdate()
     {
