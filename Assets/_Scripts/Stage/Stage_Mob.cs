@@ -76,7 +76,7 @@ public class Stage_Mob : MonoBehaviour
         SaveDataManager.Instance.QuestValue[0]++;//몬스터사냥퀘스트
         Destroy( Instantiate(DieEffect,transform.position, Quaternion.identity),1f);
         MobNum++;
-        SR.sprite = images[MobNum];
+        
         SaveDataManager.Instance.ForcePlus((SaveDataManager.Instance.StageClear + 1)*10);
         if(20<=MobNum)
         {
@@ -86,6 +86,7 @@ public class Stage_Mob : MonoBehaviour
         {
             MaxHP += (SaveDataManager.Instance.StageClear + 1);
             NowHP = MaxHP;
+            SR.sprite = images[MobNum];
             HPSet();
             StageData.SpawnPos();
         }
