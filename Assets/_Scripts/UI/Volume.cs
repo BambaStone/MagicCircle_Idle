@@ -5,6 +5,7 @@ using UnityEngine;
 public class Volume : MonoBehaviour
 {
     public AudioSource Audio;
+    public float soundOriginVoluem=1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +18,7 @@ public class Volume : MonoBehaviour
     {
         if(Audio.volume!=SaveDataManager.Instance.Volume)
         {
-            Audio.volume = SaveDataManager.Instance.Volume;
+            Audio.volume = SaveDataManager.Instance.Volume*soundOriginVoluem;
         }
     }
 }

@@ -11,6 +11,7 @@ public class SpellFire : MonoBehaviour
     public List<GameObject> SpellLineLocks;
     public List<GameObject> SpellEffects;
     public GameObject target;
+    public GameObject SpellFireSound;
 
     public float SpellTimer=0f;
     public int NowSpellNum = -1;
@@ -94,10 +95,11 @@ public class SpellFire : MonoBehaviour
 
         if(SpellTimerInt != NowSpellNum && SpellTimerInt < 8)
         {
-            
+            SpellFireSound.SetActive(false);
             NowSpellNum = SpellTimerInt;
             if(NowSpellNum<FireSpellList.Count)
             {
+                SpellFireSound.SetActive(true);
                 int magicLevel = FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel;
                 GameObject fireSpell=Instantiate(SpellEffects[magicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
 
