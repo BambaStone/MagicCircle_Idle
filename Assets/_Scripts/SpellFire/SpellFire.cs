@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
 {
+<<<<<<< HEAD
     public GameObject FireSpellParent; //발동할 스펠을 옮겨놓을 부모객체
     public GameObject SpellTankParent; //발동하지 않는 스펠이 보관되어 있는 부모객체
     public List<GameObject> FireSpellList; //발동할 스펠 목록
@@ -11,6 +12,16 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
     public List<GameObject> SpellLineLocks;//잠금된 발동칸
     public List<GameObject> SpellEffects; //스펠 발동시 발사될 투사체
     public GameObject target;//스펠의 대상이 될 타겟
+=======
+    public GameObject FireSpellParent;
+    public GameObject SpellTankParent;
+    public List<GameObject> FireSpellList;
+    public List<GameObject> NowSpellLine;
+    public List<GameObject> SpellLineLocks;
+    public List<GameObject> SpellEffects;
+    public GameObject target;
+    public GameObject SpellFireSound;
+>>>>>>> e310555d538e66c2fdff90f4099fc9ae7cbd582c
 
     public float SpellTimer=0f;
     public int NowSpellNum = -1;
@@ -95,10 +106,11 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
 
         if(SpellTimerInt != NowSpellNum && SpellTimerInt < 8)
         {
-            
+            SpellFireSound.SetActive(false);
             NowSpellNum = SpellTimerInt;
             if(NowSpellNum<FireSpellList.Count)
             {
+                SpellFireSound.SetActive(true);
                 int magicLevel = FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel;
                 GameObject fireSpell=Instantiate(SpellEffects[magicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
 

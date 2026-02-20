@@ -35,7 +35,7 @@ Transform:
   - {fileID: 7614692500340243738}
   - {fileID: 3074299499988164891}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1805965114234503245
 CircleCollider2D:
@@ -129,8 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   Damage: 0
-  UpgradeLevel: 0
-  CircleLevel: 0
 --- !u!1 &8353811555847925650
 GameObject:
   m_ObjectHideFlags: 0
