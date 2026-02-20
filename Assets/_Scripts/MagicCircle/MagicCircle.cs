@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class MagicCircle : MonoBehaviour
 {
-    public SpriteRenderer SR;
-    public List<Sprite> images;
-
-    public int SpellNum;
-
-    public MagicCircleMakeButton Spawner;
-
-    public bool OnSameLevel = false;
-    public GameObject SameTarget;
-    public int MagicLevel = 0;
-    public Vector3 ClickPoint;
-    public bool WallOut = false;
-    public bool OnFire = false;
-    public SpellFire SpellFires;
-    public ParticleSystem Effect;
-
-
-    private Vector3 offset;
+    public SpriteRenderer SR;               //스펠에 적용된 이미지
+    public List<Sprite> images;             //스펠의 레벨에 따른 이미지들
+    public MagicCircleMakeButton Spawner;   //스펠의 스포너 오브젝트
+    public GameObject SameTarget;           //스펠 드래그시 겹쳤을때 같은 단계면 타겟으로 지정될 오브젝트
+    public SpellFire SpellFires;            //스펠 발동칸 오브젝트
+    public ParticleSystem Effect;           //스펠의 이펙트
+    public Vector3 ClickPoint;              //스펠 드래그시 마우스포인트
+    public int SpellNum;                    //데이터상 저장될 스펠의 번호
+    public int MagicLevel = 0;              //스펠의 단계
+    //public bool OnSameLevel = false;        
+    public bool WallOut = false;            //스펠이 스펠탱크 바깥으로 나갔는지 여부
+    public bool OnFire = false;             //스펠이 스펠발동칸 안에 있는지 여부
+    
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +35,6 @@ public class MagicCircle : MonoBehaviour
         SR.sprite = images[MagicLevel];
         SameTarget = null;
         gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
-        //SR.color = Color.white;
     }
 
     private void FixedUpdate()
@@ -54,6 +48,7 @@ public class MagicCircle : MonoBehaviour
             }
         }
     }
+
     private void OnMouseDown()
     {
         if (!SaveDataManager.Instance.BossFight)
@@ -147,7 +142,7 @@ public class MagicCircle : MonoBehaviour
         }
     }
 
-
+    //게임을 시작할때 저장데이터의 해당 스펠이 스펠발동칸에 있다고 저장되어 있는지판단
     public void StartOnFireSpell()
     {
         if (SaveDataManager.Instance.SpellFireOn[SpellNum])

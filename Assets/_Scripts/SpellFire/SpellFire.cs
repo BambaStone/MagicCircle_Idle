@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellFire : MonoBehaviour
+public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
 {
-    public GameObject FireSpellParent;
-    public GameObject SpellTankParent;
-    public List<GameObject> FireSpellList;
-    public List<GameObject> NowSpellLine;
-    public List<GameObject> SpellLineLocks;
-    public List<GameObject> SpellEffects;
-    public GameObject target;
+    public GameObject FireSpellParent; //발동할 스펠을 옮겨놓을 부모객체
+    public GameObject SpellTankParent; //발동하지 않는 스펠이 보관되어 있는 부모객체
+    public List<GameObject> FireSpellList; //발동할 스펠 목록
+    public List<GameObject> NowSpellLine;  //스펠 발동 표시
+    public List<GameObject> SpellLineLocks;//잠금된 발동칸
+    public List<GameObject> SpellEffects; //스펠 발동시 발사될 투사체
+    public GameObject target;//스펠의 대상이 될 타겟
 
     public float SpellTimer=0f;
     public int NowSpellNum = -1;
@@ -19,14 +19,15 @@ public class SpellFire : MonoBehaviour
 
     bool stop = false;
 
-    static int MaxSpellFireLine=8;
+    static int MaxSpellFireLine=8;//최대 발동가능 스펠수
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(FireTimer());
     }
 
-    void SpellReposition()
+    void SpellReposition()//스펠이 새로 추가되거나 빠졌을때 스펠의 위치를 재정렬
     {
         for (int i = 0; i < FireSpellList.Count; i++)
         {
@@ -35,7 +36,7 @@ public class SpellFire : MonoBehaviour
                 FireSpellList[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
     }
-    public void OnSpell(GameObject spell)
+    public void OnSpell(GameObject spell)//스펠을 발동 목록에 추가
     {
         bool same = false;
         for (int i = 0; i < FireSpellList.Count; i++)
@@ -54,7 +55,7 @@ public class SpellFire : MonoBehaviour
 
     }
    
-    public void OffSpell(GameObject spell)
+    public void OffSpell(GameObject spell)//스펠을 발동 목록에서 제거
     {
         
         for(int i=0;i<FireSpellList.Count;i++)
@@ -88,7 +89,7 @@ public class SpellFire : MonoBehaviour
         }
     }
 
-    public void FireSpell()
+    public void FireSpell()//목록에 있는 스펠을 발동
     {
         int SpellTimerInt = (int)SpellTimer/1;
 
@@ -124,7 +125,7 @@ public class SpellFire : MonoBehaviour
     }
 
 
-    IEnumerator FireTimer()
+    IEnumerator FireTimer() //1초후 다음 스펠발동 시작
     {
         yield return new WaitForSeconds(1f);
         if(!stop)

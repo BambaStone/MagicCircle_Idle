@@ -20,6 +20,8 @@ public class MagicCircleMakeButton : MonoBehaviour
     {
         StartCoroutine(startTimer());
     }
+    
+    //스펠메이크 버튼
     public void ClickButton()
     {
         if (0 < SaveDataManager.Instance.NowMakeSpell)
@@ -36,6 +38,7 @@ public class MagicCircleMakeButton : MonoBehaviour
         }
     }
 
+    //스펠 만들때 스펠메이크 강화 정도에 따라 상위 스펠 뜰 확률 계산 및 적용
     private void MakeHighLevelSpell(MagicCircle spell)
     {
         int random = Random.Range(0, 100);
@@ -63,6 +66,8 @@ public class MagicCircleMakeButton : MonoBehaviour
             _maxHaveSpell = SaveDataManager.Instance.MaxHaveSpell;
         }
     }
+
+    //스펠 소환 - 리사이클링 활용
     void MagicCircleSpawn()
     {
         bool succes = false;

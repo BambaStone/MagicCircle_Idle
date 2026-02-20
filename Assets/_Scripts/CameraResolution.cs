@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraResolution : MonoBehaviour
+public class CameraResolution : MonoBehaviour //카메라 화면 조절하는 클래스
 {
     Camera camera;
     Rect rect;
