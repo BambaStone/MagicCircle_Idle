@@ -18,7 +18,7 @@ public class MagicCircleMakeButton : MonoBehaviour
     private int _maxHaveSpell;
     private void Start()
     {
-        StartCoroutine(startTimer());
+        StartCoroutine(StartTimer());
     }
     
     //스펠메이크 버튼
@@ -33,7 +33,6 @@ public class MagicCircleMakeButton : MonoBehaviour
                 SaveDataManager.Instance.NowMakeSpell--;
                 _nowMakeSpell--;
                 MakeSpellUI.text = _nowMakeSpell + " / " + _maxMakeSpell;
-                
             }
         }
     }
@@ -76,35 +75,36 @@ public class MagicCircleMakeButton : MonoBehaviour
             if (!(Recycling[i].gameObject.activeSelf))
             {
                 Recycling[i].transform.position = new Vector3(0, -1, -1);
-                Recycling[i].SetActive(true);
                 OnMagicCircle.Add(Recycling[i]);
-                Recycling[i].GetComponent<MagicCircle>().SpellNum = SaveDataManager.Instance.SpellsCount;
+                MagicCircle recyclingCircle = Recycling[i].GetComponent<MagicCircle>();
+                recyclingCircle.SpellNum = SaveDataManager.Instance.SpellsCount;
+                MakeHighLevelSpell(recyclingCircle);
                 SaveDataManager.Instance.SpellsCount= OnMagicCircle.Count;
                 SaveDataManager.Instance.SpellFireOn.Add(false);
-                MakeHighLevelSpell(Recycling[i].GetComponent<MagicCircle>());
-                SaveDataManager.Instance.SpellLevel.Add(Recycling[i].GetComponent<MagicCircle>().MagicLevel);
+                SaveDataManager.Instance.SpellLevel.Add(recyclingCircle.MagicLevel);
+                Recycling[i].SetActive(true);
                 succes = true;
                 break;
             }
         }
         if (!succes && Recycling.Count < _maxHaveSpell)
-        {
+        {            
             Recycling.Add(Instantiate(MagicCirclePrefab, new Vector3(0,-1,-1), transform.rotation));
             Recycling[Recycling.Count - 1].transform.parent = CirCles.transform;
             OnMagicCircle.Add(Recycling[Recycling.Count - 1]);
-            Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellNum = SaveDataManager.Instance.SpellsCount;
-            Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().SpellFires = SpellFireObj;
-            Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().Spawner = gameObject.GetComponent<MagicCircleMakeButton>();
+            MagicCircle recyclingCircle = Recycling[Recycling.Count - 1].GetComponent<MagicCircle>();
+            recyclingCircle.SpellNum = SaveDataManager.Instance.SpellsCount;
+            recyclingCircle.SpellFires = SpellFireObj;
+            recyclingCircle.Spawner = gameObject.GetComponent<MagicCircleMakeButton>();
+            MakeHighLevelSpell(recyclingCircle);
             SaveDataManager.Instance.SpellsCount = OnMagicCircle.Count;
             SaveDataManager.Instance.SpellFireOn.Add(false);
-            MakeHighLevelSpell(Recycling[Recycling.Count - 1].GetComponent<MagicCircle>());
-            SaveDataManager.Instance.SpellLevel.Add(Recycling[Recycling.Count - 1].GetComponent<MagicCircle>().MagicLevel);
+            SaveDataManager.Instance.SpellLevel.Add(recyclingCircle.MagicLevel);
             Recycling[Recycling.Count - 1].SetActive(true);
         }
-
     }
 
-    IEnumerator startTimer()
+    IEnumerator StartTimer()
     {
         yield return new WaitForSeconds(0.1f);
         Debug.Log("nowMake1 : " + SaveDataManager.Instance.NowMakeSpell);

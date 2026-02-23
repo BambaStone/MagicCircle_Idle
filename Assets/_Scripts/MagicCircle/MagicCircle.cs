@@ -153,6 +153,7 @@ public class MagicCircle : MonoBehaviour
             gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("MagicCircle"))
@@ -185,7 +186,6 @@ public class MagicCircle : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("MagicCircle"))
