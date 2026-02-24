@@ -16,7 +16,7 @@ public class MagicCircle : MonoBehaviour
     //public bool OnSameLevel = false;        
     public bool WallOut = false;            //½ºÆçÀÌ ½ºÆçÅÊÅ© ¹Ù±ùÀ¸·Î ³ª°¬´ÂÁö ¿©ºÎ
     public bool OnFire = false;             //½ºÆçÀÌ ½ºÆç¹ßµ¿Ä­ ¾È¿¡ ÀÖ´ÂÁö ¿©ºÎ
-    
+    private Rigidbody2D _rigidBody2D;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,7 @@ public class MagicCircle : MonoBehaviour
         }
         SR.sprite = images[MagicLevel];
         StartOnFireSpell();
+        _rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -34,7 +35,7 @@ public class MagicCircle : MonoBehaviour
         MagicLevel = 0;
         SR.sprite = images[MagicLevel];
         SameTarget = null;
-        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
+        _rigidBody2D.AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
     }
 
     private void FixedUpdate()
@@ -67,9 +68,9 @@ public class MagicCircle : MonoBehaviour
             ClickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             ClickPoint.z = 0;
             gameObject.transform.position = ClickPoint;
-            if (!(gameObject.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static))
+            if (!(_rigidBody2D.bodyType == RigidbodyType2D.Static))
             {
-                gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                _rigidBody2D.velocity = Vector2.zero;
             }
         }
     }
@@ -77,7 +78,8 @@ public class MagicCircle : MonoBehaviour
     {
         if (!SaveDataManager.Instance.BossFight)
         {
-            if (OnFire && SpellFires.FireSpellList.Count < SaveDataManager.Instance.MaxSpellFiresCount)
+            if (OnFire 
+                && SpellFires.FireSpellList.Count < SaveDataManager.Instance.MaxSpellFiresCount)
             {
                 SameTarget = null;
                 SpellFires.OnSpell(gameObject);
@@ -90,7 +92,9 @@ public class MagicCircle : MonoBehaviour
             {
                 if (SameTarget != null)
                 {
-                    if (SameTarget.activeSelf && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel && MagicLevel < 11 && !OnFire)
+                    if (SameTarget.activeSelf 
+                        && SameTarget.GetComponent<MagicCircle>().MagicLevel == MagicLevel
+                        && MagicLevel < 11 && !OnFire)
                     {
                         SameTarget.SetActive(false);
                         LevelChange(MagicLevel + 1);
@@ -99,20 +103,17 @@ public class MagicCircle : MonoBehaviour
                     }
                     SameTarget = null;
                 }
-
                 if (SpellFires != null)
                 {
                     SpellFires.OffSpell(gameObject);
                     SaveDataManager.Instance.SpellFireOn[SpellNum] = false;
                 }
-
                 if (WallOut)
                 {
                     transform.position = new Vector2(0, -1);
-                    gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
+                    _rigidBody2D.AddForce(new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)));
                     WallOut = false;
                 }
-
                 Effect.GetComponent<Renderer>().sortingOrder = 9;
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
                 gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
@@ -156,13 +157,6 @@ public class MagicCircle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("MagicCircle"))
-        {
-            if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
-            {
-                SameTarget = collision.gameObject;
-            }
-        }
         if (collision.CompareTag("SpellFire"))
         {
             OnFire = true;
@@ -171,29 +165,22 @@ public class MagicCircle : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("MagicCircle"))
+        if (collision.CompareTag("MagicCircle") 
+            && collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
         {
-            if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
-            {
-                SameTarget = collision.gameObject;
-            }
+            SameTarget = collision.gameObject;
         }
-        if (collision.CompareTag("Wall"))
+        if (collision.CompareTag("Wall") && WallOut)
         {
-            if (WallOut)
-            {
-                WallOut = false;
-            }
+            WallOut = false;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("MagicCircle"))
+        if (collision.CompareTag("MagicCircle")
+            && collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
         {
-            if (collision.GetComponent<MagicCircle>().MagicLevel == MagicLevel)
-            {
-                SameTarget = null;
-            }
+            SameTarget = null;
         }
         if (collision.CompareTag("Wall"))
         {

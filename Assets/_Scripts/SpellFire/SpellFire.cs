@@ -59,7 +59,6 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
    
     public void OffSpell(GameObject spell)//스펠을 발동 목록에서 제거
     {
-        
         for(int i=0;i<FireSpellList.Count;i++)
         {
             if(FireSpellList[i]==spell)
@@ -69,7 +68,6 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
                 spell.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             }
         }
-
         SpellReposition();
 
     }
@@ -94,7 +92,6 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
     public void FireSpell()//목록에 있는 스펠을 발동
     {
         int SpellTimerInt = (int)SpellTimer/1;
-
         if(SpellTimerInt != NowSpellNum && SpellTimerInt < 8)
         {
             SpellFireSound.SetActive(false);
@@ -103,9 +100,13 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
             {
                 SpellFireSound.SetActive(true);
                 int magicLevel = FireSpellList[NowSpellNum].GetComponent<MagicCircle>().MagicLevel;
-                GameObject fireSpell=Instantiate(SpellEffects[magicLevel], FireSpellList[NowSpellNum].transform.position, Quaternion.identity);
-
-                float damage = SaveDataManager.Instance.BaseDamage[magicLevel] * SaveDataManager.Instance.TotalPower*(1+SaveDataManager.Instance.SpellPower[magicLevel]*0.1f);
+                Vector3 spellPosition = FireSpellList[NowSpellNum].transform.position;
+                GameObject fireSpell =
+                    Instantiate(SpellEffects[magicLevel], spellPosition , Quaternion.identity);
+                float damage = 
+                    SaveDataManager.Instance.BaseDamage[magicLevel] 
+                    * SaveDataManager.Instance.TotalPower
+                    * (1+SaveDataManager.Instance.SpellPower[magicLevel]*0.1f);
                 fireSpell.GetComponent<SpellData>().SetData(target,damage);
             }
             if(1<=NowSpellNum)
@@ -114,17 +115,16 @@ public class SpellFire : MonoBehaviour //장착된 스펠을 발동 및 발사하는 클래스
             }
             NowSpellLine[NowSpellNum].SetActive(true);
         }
-
-        
         if (MaxSpellFireLine <= SpellTimer)
         {
-            NowSpellLine[7].SetActive(false);
+            NowSpellLine[MaxSpellFireLine-1].SetActive(false);
             SpellTimer = 0;
             NowSpellNum = -1;
             Fire = false;
             StartCoroutine(FireTimer());
         }
-        SpellTimer = SpellTimer + SaveDataManager.Instance.TotalSpeed * Time.deltaTime;
+        else
+            SpellTimer += SaveDataManager.Instance.TotalSpeed * Time.deltaTime;
     }
 
 
